@@ -17,6 +17,14 @@ var common = (function ($, w, document) {
 
 	var init = function () {
 		self = common;
+		$('.round').slick({
+			dots: true,
+			infinite: true,
+			speed: 500,
+			slidesToShow: 1,
+			slidesToScroll: 1
+		});
+
 		$.ajaxSetup({
 			error: function (x, e) {
 				if (x.status == 0) {

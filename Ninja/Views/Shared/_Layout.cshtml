@@ -6,6 +6,8 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+	<link href="~/Content/slick-theme.css" rel="stylesheet" />
+	<link href="~/Content/slick.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -29,5 +31,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/system")
     @RenderSection("scripts", required: false)
+		<script src="~/Scripts/slick.min.js"></script>
 </body>
 </html>
