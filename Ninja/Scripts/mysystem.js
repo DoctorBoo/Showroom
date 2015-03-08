@@ -209,7 +209,7 @@ var common = (function ($, w, document) {
 			try {
 				var mappingdata = data.d;
 				self.writeLog('getTable', table, 'success:', data);
-				deferred.resolve();
+				deferred.resolve(data);
 
 			} catch (e) {
 				self.writeLog(e);
