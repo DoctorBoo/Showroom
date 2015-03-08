@@ -38,6 +38,7 @@
     border: none;
     outline: none;
     /*background: transparent;*/
+		border-radius:50px;
 }
 .slick-prev:hover,
 .slick-prev:focus,
@@ -46,7 +47,7 @@
 {
     /*color: transparent;*/
     outline: none;
-    /*background: transparent;*/
+    background: transparent;
 }
 .slick-prev:hover:before,
 .slick-prev:focus:before,
@@ -69,7 +70,7 @@
     line-height: 1;
 
     opacity: .75;
-    color: white;
+    color: black;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
