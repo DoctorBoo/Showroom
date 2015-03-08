@@ -220,13 +220,12 @@ var common = (function ($, w, document) {
 			deferred.rejectWith(this, [table]);
 		};
 
-		//async
-		$.when($.ajax({
+		$.ajax({
 			type: "GET",
 			dataType: "json",
 			contentType: "application/json; charset=utf-8",
 			url: deploymentUrl
-		})).then(succes, fail);
+		}).then(succes, fail);
 
 		return deferred.promise();
 	}
