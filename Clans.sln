@@ -1,9 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninja", "Ninja\Ninja.csproj", "{0D5C7EBB-5C5C-47D6-AD8A-DDAFD606CD90}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninja.Tests", "Ninja.Tests\Ninja.Tests.csproj", "{720F6DB7-6F09-43A7-B489-4A3E11193845}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shogun", "Shogun\Shogun.csproj", "{ACD87333-4B4B-4873-A2D8-C31BBC21AD64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shogun.Tests", "Shogun.Tests\Shogun.Tests.csproj", "{3917D424-6392-4A10-BA3E-D92FCF919011}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{139E3AE4-81EC-4BA4-A1EC-0A17ED0A52B8}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{F8647703-89F4-455F-AAD1-3B9FE8B4D361}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\Shogun-WAWS-dev.json = PublishScripts\Configurations\Shogun-WAWS-dev.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7D7E12C5-BD48-4F0F-94B5-B0933E42B43C}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +41,19 @@ Global
 		{720F6DB7-6F09-43A7-B489-4A3E11193845}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{720F6DB7-6F09-43A7-B489-4A3E11193845}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{720F6DB7-6F09-43A7-B489-4A3E11193845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACD87333-4B4B-4873-A2D8-C31BBC21AD64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACD87333-4B4B-4873-A2D8-C31BBC21AD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACD87333-4B4B-4873-A2D8-C31BBC21AD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACD87333-4B4B-4873-A2D8-C31BBC21AD64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3917D424-6392-4A10-BA3E-D92FCF919011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3917D424-6392-4A10-BA3E-D92FCF919011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3917D424-6392-4A10-BA3E-D92FCF919011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3917D424-6392-4A10-BA3E-D92FCF919011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8647703-89F4-455F-AAD1-3B9FE8B4D361} = {139E3AE4-81EC-4BA4-A1EC-0A17ED0A52B8}
 	EndGlobalSection
 EndGlobal
