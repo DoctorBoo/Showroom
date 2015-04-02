@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shogun.Contexts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +19,8 @@ namespace Shogun
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+			
+			BookStore.LoadStore(Server.MapPath("~/app_data"), "Books.xml");
         }
     }
 }
