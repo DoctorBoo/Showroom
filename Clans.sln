@@ -15,6 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishSc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{F8647703-89F4-455F-AAD1-3B9FE8B4D361}"
 	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\CRMFactory-WAWS-dev.json = PublishScripts\Configurations\CRMFactory-WAWS-dev.json
+		PublishScripts\Configurations\ModelFactory-WAWS-dev.json = PublishScripts\Configurations\ModelFactory-WAWS-dev.json
+		PublishScripts\Configurations\ProductFactory-WAWS-dev.json = PublishScripts\Configurations\ProductFactory-WAWS-dev.json
 		PublishScripts\Configurations\Shogun-WAWS-dev.json = PublishScripts\Configurations\Shogun-WAWS-dev.json
 	EndProjectSection
 EndProject
@@ -24,6 +27,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7D7E12
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{7F6C44BE-68B5-4C08-A1F5-66FD28D0CA5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductFactory", "ProductFactory\ProductFactory.csproj", "{4DE6286F-45A1-498B-92A7-307974FF2FB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductFactory.Tests", "ProductFactory.Tests\ProductFactory.Tests.csproj", "{CAB8B6F6-19E9-4DCF-B666-2E7BF5A20AD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMFactory", "CRMFactory\CRMFactory.csproj", "{0B458936-AE10-42E4-9201-8EA5A372490F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMFactory.Tests", "CRMFactory.Tests\CRMFactory.Tests.csproj", "{1B833502-5D20-4924-9BED-8C8ADC4DE26C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +54,22 @@ Global
 		{7F6C44BE-68B5-4C08-A1F5-66FD28D0CA5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F6C44BE-68B5-4C08-A1F5-66FD28D0CA5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F6C44BE-68B5-4C08-A1F5-66FD28D0CA5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE6286F-45A1-498B-92A7-307974FF2FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE6286F-45A1-498B-92A7-307974FF2FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE6286F-45A1-498B-92A7-307974FF2FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE6286F-45A1-498B-92A7-307974FF2FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAB8B6F6-19E9-4DCF-B666-2E7BF5A20AD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAB8B6F6-19E9-4DCF-B666-2E7BF5A20AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAB8B6F6-19E9-4DCF-B666-2E7BF5A20AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAB8B6F6-19E9-4DCF-B666-2E7BF5A20AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B458936-AE10-42E4-9201-8EA5A372490F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B458936-AE10-42E4-9201-8EA5A372490F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B458936-AE10-42E4-9201-8EA5A372490F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B458936-AE10-42E4-9201-8EA5A372490F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B833502-5D20-4924-9BED-8C8ADC4DE26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B833502-5D20-4924-9BED-8C8ADC4DE26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B833502-5D20-4924-9BED-8C8ADC4DE26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B833502-5D20-4924-9BED-8C8ADC4DE26C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
