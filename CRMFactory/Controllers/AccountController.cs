@@ -9,10 +9,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CRMFactory.Models;
+using System.Threading;
 
 namespace CRMFactory.Controllers
 {
     [Authorize]
+	[RequireHttps]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

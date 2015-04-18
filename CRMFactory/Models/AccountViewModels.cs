@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CRMFactory.Models
 {
+	public class AccountViewModels
+	{}
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -77,7 +79,8 @@ namespace CRMFactory.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		//[Compare("Password", ErrorMessage="error!!")]
+		[Compare("Password", ErrorMessageResourceName = "ErrorPasswordConfirmation", ErrorMessageResourceType = typeof(CRM))]
         public string ConfirmPassword { get; set; }
     }
 
