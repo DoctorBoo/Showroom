@@ -1,0 +1,32 @@
+﻿@model dynamic
+
+@{
+	ViewBag.Title = "Upload";
+}
+
+<h2>Upload</h2>
+<span>Select file(s) to upload :</span>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="input-group">
+			<span class="input-group-btn">
+				<span class="btn btn-default btn-file ">
+					Browse&hellip;
+					<input id="file1" name="file1" type="file" multiple="multiple">
+				</span>
+			</span>
+			<input type="text" class="form-control" >
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<input id="upload" class="btn btn-danger" type="button" value="Upload" />
+	</div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/upload")

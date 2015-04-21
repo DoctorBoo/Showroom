@@ -10,6 +10,9 @@ namespace ProductFactory
 		// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
 		{
+			bundles.Add(new ScriptBundle("~/bundles/upload").Include(
+				"~/Scripts/fileupload.js"));
+
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
 				"~/Scripts/jquery-{version}.js"));
 
