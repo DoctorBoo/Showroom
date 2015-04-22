@@ -66,3 +66,6 @@ input[readonly] {
 	width: 100%
 	
 }
+.QRcode {
+	font-size: 80px;
+}

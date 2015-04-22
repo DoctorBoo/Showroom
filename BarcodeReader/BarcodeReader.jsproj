@@ -111,8 +111,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="images\" />
+    <Content Include="Content\bootstrap-3.3.4-dist\css\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-3.3.4-dist\css\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-3.3.4-dist\css\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-3.3.4-dist\css\bootstrap.css" />
+    <Content Include="Content\bootstrap-3.3.4-dist\css\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-3.3.4-dist\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-3.3.4-dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-3.3.4-dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap-3.3.4-dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap-3.3.4-dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\bootstrap-3.3.4-dist\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\bootstrap-3.3.4-dist\js\bootstrap.js" />
+    <Content Include="Content\bootstrap-3.3.4-dist\js\bootstrap.min.js" />
+    <Content Include="Content\bootstrap-3.3.4-dist\js\npm.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery-1.10.2.intellisense.js" />
+    <Content Include="Content\jquery-1.10.2.js" />
+    <Content Include="Content\jquery-1.10.2.min.js" />
+    <Content Include="Content\jquery-1.10.2.min.map" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Site.min.css" />
     <Content Include="favicon.ico" />

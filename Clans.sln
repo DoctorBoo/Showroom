@@ -359,9 +359,9 @@ Global
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|iOS.ActiveCfg = Distribution|iOS
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|iOS.Build.0 = Distribution|iOS
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|iOS.Deploy.0 = Distribution|iOS
-		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Mixed Platforms.ActiveCfg = Distribution|Windows Phone (Universal)
-		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Mixed Platforms.Build.0 = Distribution|Windows Phone (Universal)
-		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Mixed Platforms.Deploy.0 = Distribution|Windows Phone (Universal)
+		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Mixed Platforms.ActiveCfg = Distribution|Android
+		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Mixed Platforms.Build.0 = Distribution|Android
+		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Mixed Platforms.Deploy.0 = Distribution|Android
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Windows Phone (Universal).ActiveCfg = Distribution|Windows Phone (Universal)
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Windows Phone (Universal).Build.0 = Distribution|Windows Phone (Universal)
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Distribution|Windows Phone (Universal).Deploy.0 = Distribution|Windows Phone (Universal)
