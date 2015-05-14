@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Collections.Concurrent;
 using System.Threading;
-using Microsoft.Office.Interop.Outlook;
+using System.IO;
 
 namespace ClientMail
 {
@@ -61,23 +61,29 @@ namespace ClientMail
                 // Specify the e-mail sender. 
                 // Create a mailing address that includes a UTF8 character 
                 // in the display name.
-                MailAddress from = new MailAddress("jane@contoso.com",
-                   "Jane " + (char)0xD8 + " Clayton",
-                System.Text.Encoding.UTF8);
+                MailAddress from = new MailAddress("No_reply@backoffice.com",
+                   "No_reply " + (char)0xD8 + " sygnion", Encoding.UTF8);
                 // Set destinations for the e-mail message.
                 MailAddress to = new MailAddress("sneakyboo@gmail.com");
                 // Specify the message content.
                 using (MailMessage message = new MailMessage(from, to))
                 {
+                    message.CC.Add(new MailAddress("dmodiwirijo@hotmail.com"));
+                    //message.CC.Add(new MailAddress("sneakyboo@gmail.com"));
                     message.Body = "This is a test e-mail message sent by an application. ";
                     // Include some non-ASCII characters in body and subject. 
                     string someArrows = new string(new char[] { '\u2190', '\u2191', '\u2192', '\u2193' });
                     message.Body += Environment.NewLine + someArrows;
                     message.BodyEncoding = System.Text.Encoding.UTF8;
-                    message.Subject = "test message 1" + someArrows;
+                    message.Subject = "NEXT ACTION";
                     message.SubjectEncoding = System.Text.Encoding.UTF8;
-                    // Set the method that is called back when the send operation ends.
 
+                    DateTime appointment = new DateTime(2015, 7, 7);
+                    string filename = string.Format("next_action.{0}.ics", appointment.ToShortDateString());                    
+                    Attachment attach = new Attachment(CreateContent(appointment, appointment, StyleIcs), filename, "text/plain");                    
+                    message.Attachments.Add(attach);
+                    //message.Attachments.Add(attach2);
+                    // Set the method that is called back when the send operation ends.
                     client.SendCompleted += new SendCompletedEventHandler(SendCompletedCallback);
 
                     // The userState can be any object that allows your callback  
@@ -89,7 +95,103 @@ namespace ClientMail
                 }
             }
         }
+        public static MemoryStream GenerateStreamFromString(string s)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
+        public static MemoryStream CreateContent(DateTime startTime, DateTime endTime, Func<DateTime,DateTime, string[]> useStyle)
+        {
+            //CalendarReader calendar;
+            MemoryStream stream = new MemoryStream();
+            try
+            {
+                string[] contents = null;
+                if (useStyle == null)
+                    contents = StyleIcs(startTime, endTime);
+                else
+                    contents = useStyle(startTime, endTime);
+                String concatenated = String.Join("\r\n", contents);
+                stream = GenerateStreamFromString(concatenated);
 
+            }
+            catch (Exception)
+            {
+                stream.Dispose();
+                throw;
+            }
+            return stream;
+        }
+        public static MemoryStream CreateContent(DateTime startTime, DateTime endTime)
+        {
+            //CalendarReader calendar;
+            MemoryStream stream = new MemoryStream();
+            try
+            {
+                string[] contents = StyleIcs(startTime, endTime);
+                String concatenated = String.Join("\r\n", contents);
+                stream = GenerateStreamFromString(concatenated);
 
+            }
+            catch (Exception)
+            {
+                stream.Dispose();
+                throw;
+            }
+            return stream;
+        }
+        private static string[] StyleIcs(DateTime startTime, DateTime endTime)
+        {
+            string schLocation = "";
+            string schSubject = "NEXT ACTION";
+            string schDescription = "";
+            DateTime schBeginDate = Convert.ToDateTime(startTime);
+            DateTime schEndDate = Convert.ToDateTime(endTime);
+            string[] contents = {   "BEGIN      :VCALENDAR",
+                                    "PRODID     :-//Flo Inc.//FloSoft//EN",
+                                    "BEGIN      : VEVENT",
+                                    "DTSTART    :" +schBeginDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    "DTEND      :" +schEndDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    "LOCATION   :" +schLocation,
+                                    "DESCRIPTION; ENCODING = QUOTED - PRINTABLE:" +schDescription,
+                                    "SUMMARY    :" +schSubject, "PRIORITY: 3",
+                                    "END        : VEVENT", "END: VCALENDAR" };
+            return contents;
+        }
+        private static string[] StyleIcal(DateTime startTime, DateTime endTime)
+        {
+            string schLocation = "";
+            string schSubject = "NEXT ACTION";
+            string schDescription = "";
+            DateTime schBeginDate = Convert.ToDateTime(startTime);
+            DateTime schEndDate = Convert.ToDateTime(endTime);
+            string[] contents = {   "BEGIN                                      ",
+                                    "PRODID                                     ",
+                                    "BEGIN                                      ",
+                                    "DTSTART                                    ",
+                                    "DTEND                                      ",
+                                    "LOCATION                                   ",
+                                    "DESCRIPTION",
+                                    "SUMMARY                                    ",
+                                    "PRIORITY                                   ",
+                                    "END                                        ",
+                                    "END                                        ",
+                                    "VCALENDAR",
+                                    "-//Flo Inc.//FloSoft//EN",
+                                    " VEVENT",
+                                    schBeginDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    schEndDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    schLocation,
+                                    schDescription,
+                                    "3",
+                                    schSubject,
+                                    "VEVENT",
+                                    "VCALENDAR" };
+            return contents;
+        }
     }
 }
