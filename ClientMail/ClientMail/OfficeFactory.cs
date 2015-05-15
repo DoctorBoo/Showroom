@@ -11,15 +11,35 @@ using System.IO;
 
 namespace ClientMail
 {
-    public class OfficeFactory
+    public class OfficeFactory:IDisposable
     {
         object locker = new object();
-        public OfficeFactory()
-        {
-
-        }
         public static bool mailSent = false;
         public static ConcurrentDictionary<string, string> _tokens;
+        public static ConcurrentDictionary<string, string> _failure;
+        private string _passWord;
+        private string _userName;
+        private int _port;
+        private string _server;
+        private string _subject;
+        SmtpClient _client;
+
+        public OfficeFactory(string server, int port, string userName, string password)
+        {
+            _server = server;
+            _port = port;
+            _userName = userName;
+            _passWord = password;
+
+            _client = new SmtpClient(_server, _port);
+            // Credentials are necessary if the server requires the client  
+            // to authenticate before it will send e-mail on the client's behalf.            
+            _client.EnableSsl = true;
+            _client.UseDefaultCredentials = false;
+            _client.Credentials = new System.Net.NetworkCredential(_userName, _passWord);
+            _client.SendCompleted += new SendCompletedEventHandler(SendCompletedCallback);
+        }
+
         private void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             lock (locker)
@@ -29,70 +49,76 @@ namespace ClientMail
 
                 if (e.Cancelled)
                 {
+                    _failure.TryAdd(token + "-canceled", "Canceled");
                     Console.WriteLine("[{0}] Send canceled.", token);
                 }
-                if (e.Error != null)
-                {
-                    Console.WriteLine("[{0}] {1}", token, e.Error.ToString());
+                if (!e.Cancelled && e.Error == null)
+                {                   
+                    _tokens.TryAdd(token, token);
                 }
-                else
+
+                if(e.Error!=null)
                 {
-                    Console.WriteLine("Message sent.");
+                    //Console.WriteLine("[{0}] {1}", token, e.Error.ToString());
+                    _failure.TryAdd(token, e.Error.ToString());
                 }
+
                 mailSent = true;
-                _tokens.TryAdd(token, token);
-                Monitor.PulseAll(locker);
+                
+                Monitor.Pulse(locker);
             }
             
         }
-        public void Send(string server, int port, string userName, string password, object token)
+        public void SendCalendarEvent(string toRecipient, string subject, string body, DateTime when, object token)
         {
             lock (locker)
             {
+                _subject = subject;
                 if (_tokens == null) _tokens = new ConcurrentDictionary<string, string>();
+                if (_failure == null) _failure = new ConcurrentDictionary<string, string>(); 
 
-                // Command line argument must the the SMTP host.            
-                SmtpClient client = new SmtpClient(server, port);
-                // Credentials are necessary if the server requires the client  
-                // to authenticate before it will send e-mail on the client's behalf.            
-                client.EnableSsl = true;
-                client.UseDefaultCredentials = false;
-                client.Credentials = new System.Net.NetworkCredential(userName, password);
-                // Specify the e-mail sender. 
-                // Create a mailing address that includes a UTF8 character 
-                // in the display name.
-                MailAddress from = new MailAddress("No_reply@backoffice.com",
-                   "No_reply " + (char)0xD8 + " sygnion", Encoding.UTF8);
-                // Set destinations for the e-mail message.
-                MailAddress to = new MailAddress("sneakyboo@gmail.com");
-                // Specify the message content.
-                using (MailMessage message = new MailMessage(from, to))
+                // Command line argument must the the SMTP host.                           
+                try
                 {
-                    message.CC.Add(new MailAddress("dmodiwirijo@hotmail.com"));
-                    //message.CC.Add(new MailAddress("sneakyboo@gmail.com"));
-                    message.Body = "This is a test e-mail message sent by an application. ";
-                    // Include some non-ASCII characters in body and subject. 
-                    string someArrows = new string(new char[] { '\u2190', '\u2191', '\u2192', '\u2193' });
-                    message.Body += Environment.NewLine + someArrows;
-                    message.BodyEncoding = System.Text.Encoding.UTF8;
-                    message.Subject = "NEXT ACTION";
-                    message.SubjectEncoding = System.Text.Encoding.UTF8;
+                    // Specify the e-mail sender. 
+                    // Create a mailing address that includes a UTF8 character 
+                    // in the display name.
+                    MailAddress from = new MailAddress("No_reply@backoffice.com", "No_Reply Next Action", Encoding.UTF8);
+                    // Set destinations for the e-mail message.
+                    MailAddress to = new MailAddress(toRecipient);
+                    // Specify the message content.
+                    using (MailMessage message = new MailMessage(from, to))
+                    {
+                        //message.CC.Add(new MailAddress("dmodiwirijo@hotmail.com"));
 
-                    DateTime appointment = new DateTime(2015, 7, 7);
-                    string filename = string.Format("next_action.{0}.ics", appointment.ToShortDateString());                    
-                    Attachment attach = new Attachment(CreateContent(appointment, appointment, StyleIcs), filename, "text/plain");                    
-                    message.Attachments.Add(attach);
-                    //message.Attachments.Add(attach2);
-                    // Set the method that is called back when the send operation ends.
-                    client.SendCompleted += new SendCompletedEventHandler(SendCompletedCallback);
+                        message.BodyEncoding = System.Text.Encoding.UTF8;
+                        message.Subject = subject;
+                        message.Body = body;
+                        message.SubjectEncoding = System.Text.Encoding.UTF8;
 
-                    // The userState can be any object that allows your callback  
-                    // method to identify this send operation. 
-                    // For this example, the userToken is a string constant. 
-                    string userState = string.Format("{0}", token.ToString());
-                    client.SendAsync(message, userState);
-                    Monitor.Wait(locker);
+                        DateTime appointment = when;
+                        string filename = string.Format("next_action.{0}.ics", appointment.ToShortDateString());
+                        var content = CreateContent(appointment, appointment, StyleIcs);
+                        Attachment attach = new Attachment(content, filename, "text/plain");
+                        message.Attachments.Add(attach);
+                        //message.Attachments.Add(attach2);
+                        // Set the method that is called back when the send operation ends.
+                        
+
+                        // The userState can be any object that allows your callback  
+                        // method to identify this send operation. 
+                        // For this example, the userToken is a string constant. 
+                        string userState = string.Format("{0}", token.ToString());
+                        _client.SendAsync(message, userState);
+                        Monitor.Wait(locker);
+                        //
+                    }
                 }
+                finally
+                {
+
+                }
+                
             }
         }
         public static MemoryStream GenerateStreamFromString(string s)
@@ -104,7 +130,7 @@ namespace ClientMail
             stream.Position = 0;
             return stream;
         }
-        public static MemoryStream CreateContent(DateTime startTime, DateTime endTime, Func<DateTime,DateTime, string[]> useStyle)
+        public MemoryStream CreateContent(DateTime startTime, DateTime endTime, Func<DateTime,DateTime, string[]> useStyle)
         {
             //CalendarReader calendar;
             MemoryStream stream = new MemoryStream();
@@ -126,7 +152,7 @@ namespace ClientMail
             }
             return stream;
         }
-        public static MemoryStream CreateContent(DateTime startTime, DateTime endTime)
+        public MemoryStream CreateContent(DateTime startTime, DateTime endTime)
         {
             //CalendarReader calendar;
             MemoryStream stream = new MemoryStream();
@@ -144,10 +170,10 @@ namespace ClientMail
             }
             return stream;
         }
-        private static string[] StyleIcs(DateTime startTime, DateTime endTime)
+        private string[] StyleIcs(DateTime startTime, DateTime endTime)
         {
             string schLocation = "";
-            string schSubject = "NEXT ACTION";
+            string schSubject = _subject;
             string schDescription = "";
             DateTime schBeginDate = Convert.ToDateTime(startTime);
             DateTime schEndDate = Convert.ToDateTime(endTime);
@@ -162,10 +188,10 @@ namespace ClientMail
                                     "END        : VEVENT", "END: VCALENDAR" };
             return contents;
         }
-        private static string[] StyleIcal(DateTime startTime, DateTime endTime)
+        private string[] StyleIcal(DateTime startTime, DateTime endTime)
         {
             string schLocation = "";
-            string schSubject = "NEXT ACTION";
+            string schSubject = _subject;
             string schDescription = "";
             DateTime schBeginDate = Convert.ToDateTime(startTime);
             DateTime schEndDate = Convert.ToDateTime(endTime);
@@ -193,5 +219,41 @@ namespace ClientMail
                                     "VCALENDAR" };
             return contents;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).  
+                    _client.SendCompleted -= SendCompletedCallback;
+                    _client.Dispose();
+                }                
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~OfficeFactory() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }
