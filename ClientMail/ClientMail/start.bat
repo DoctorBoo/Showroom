@@ -1,3 +1,3 @@
-ClientMail.exe 25
+ClientMail.exe 2 1
 
 pause

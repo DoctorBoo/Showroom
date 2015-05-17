@@ -14,26 +14,26 @@ namespace ClientMail
         object locker = new object();
         private static string token;
         private static bool mailSent;
-
         static void Main(string[] args)
         {
             int length = int.Parse(args[0]);
-            new Program().StressTest(length);
+            int queueCount = int.Parse(args[1]);
+            new Program().StressTest(length, queueCount);
         }
         [ContractInvariantMethod]
-        public void StressTest(int length)
+        public void StressTest(int length, int queueCount)
         {
-            Action[] jobQueue = new Action[4];
-            Action[][] actionList = new Action[4][];
+            Action[] jobQueue = new Action[queueCount];
+            Action[][] actionList = new Action[queueCount][];
 
             ConcurrentQueue<Exception> errors = new ConcurrentQueue<Exception>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < queueCount; i++)
             {
                 int iCurrent = i;
                 actionList[iCurrent] = new Action[length];
                 jobQueue[iCurrent] = () =>
                 {
-                    using (OfficeFactory factory = new OfficeFactory("smtp.gmail.com", 587, "sygnion2", "sygnion01!"))
+                    using (OfficeFactory factory = new OfficeFactory("smtp.gmail.com", 587, "sygnion", "sygnion01!"))
                     {
                         ConcurrentBag<Task> tasks = new ConcurrentBag<Task>();
                         ConcurrentBag<Action<string, DateTime, string>> bag = new ConcurrentBag<Action<string, DateTime, string>>();

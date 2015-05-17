@@ -85,7 +85,7 @@ namespace TestRepo
             }
         }
         [ContractInvariantMethod]
-        [TestMethod]
+        [Ignore]
         public void StressTest()
         {
             Action[] jobQueue = new Action[4];
@@ -170,6 +170,10 @@ namespace TestRepo
             //Task.WaitAll(tasks2.ToArray());
         }
 
+        public static int  RollDice(Random rng)
+        {
+            return 
+        }
         private void Contract_ContractFailed(object sender, ContractFailedEventArgs e)
         {
             throw new NotImplementedException();
