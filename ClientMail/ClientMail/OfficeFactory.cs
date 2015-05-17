@@ -8,6 +8,7 @@ using System.Net;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.IO;
+using System.Globalization;
 
 namespace ClientMail
 {
@@ -172,17 +173,19 @@ namespace ClientMail
         }
         private string[] StyleIcs(DateTime startTime, DateTime endTime)
         {
+            bool isDaylightSavingTime = TimeZoneInfo.Local.IsDaylightSavingTime(startTime);
             string schLocation = "";
             string schSubject = _subject;
             string schDescription = "";
-            DateTime schBeginDate = Convert.ToDateTime(startTime);
-            DateTime schEndDate = Convert.ToDateTime(endTime);
+            int hour = isDaylightSavingTime ? 9 : 8;
+            DateTime schBeginDate = new DateTime(startTime.Year, startTime.Month, startTime.Day, hour ,0 ,0);
+            DateTime schEndDate = new DateTime(endTime.Year, endTime.Month, endTime.Day, hour+1 ,0 ,0);
             string[] contents = {   "BEGIN      :VCALENDAR",
-                                    "PRODID     :-//Flo Inc.//FloSoft//EN",
+                                    "PRODID     :-//Meta Inc.//Meta//nl-NL",
                                     "BEGIN      : VEVENT",
-                                    "DTSTART    :" +schBeginDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
-                                    "DTEND      :" +schEndDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
-                                    "LOCATION   :" +schLocation,
+                                    "DTSTART    :" + schBeginDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    "DTEND      :" + schEndDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    "LOCATION   :" + schLocation,
                                     "DESCRIPTION; ENCODING = QUOTED - PRINTABLE:" +schDescription,
                                     "SUMMARY    :" +schSubject, "PRIORITY: 3",
                                     "END        : VEVENT", "END: VCALENDAR" };
@@ -209,8 +212,8 @@ namespace ClientMail
                                     "VCALENDAR",
                                     "-//Flo Inc.//FloSoft//EN",
                                     " VEVENT",
-                                    schBeginDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
-                                    schEndDate.ToUniversalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    schBeginDate.ToLocalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
+                                    schEndDate.ToLocalTime().ToString("yyyyMMdd\\THHmmss\\Z"),
                                     schLocation,
                                     schDescription,
                                     "3",

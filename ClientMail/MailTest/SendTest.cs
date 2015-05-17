@@ -76,7 +76,10 @@ namespace TestRepo
                 String expectedToken = Guid.NewGuid().ToString();
 
                 OfficeFactory factory = new OfficeFactory("smtp.gmail.com", 587, "sygnion2", "sygnion01!");
-                factory.SendCalendarEvent("dmodiwirijo@hotmail.com", " Dwight Modiwirijo | YMultego", null, new DateTime(2015, 7, 7), expectedToken);
+                DateTime date = new DateTime(2015, 1, 7);
+                factory.SendCalendarEvent("dmodiwirijo@hotmail.com", " Dwight Modiwirijo | Winter inc.", null, date, expectedToken);
+                date = new DateTime(2015, 7, 7);
+                factory.SendCalendarEvent("dmodiwirijo@hotmail.com", " Dwight Modiwirijo | Zomer Inc.", null, date, expectedToken);
                 //Monitor.Wait(locker);
 
                 string actual;
@@ -172,7 +175,7 @@ namespace TestRepo
 
         public static int  RollDice(Random rng)
         {
-            return 
+            return 0; 
         }
         private void Contract_ContractFailed(object sender, ContractFailedEventArgs e)
         {
