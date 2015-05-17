@@ -5,6 +5,7 @@ using System.Threading;
 using ClientMail;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using System.Diagnostics.Contracts;
 
 namespace TestRepo
 {
@@ -14,19 +15,17 @@ namespace TestRepo
     [TestClass]
     public class Mail
     {
+        private TestContext testContextInstance;
         object locker = new object();
+        private static string token;
+        private static bool mailSent;
+        private readonly int length = 2;
         public Mail()
         {
             //
             // TODO: Add constructor logic here
             //
         }
-
-        private TestContext testContextInstance;
-        private static string token;
-        private static bool mailSent;
-        private readonly int length = 25;
-
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -85,14 +84,19 @@ namespace TestRepo
                 Assert.AreEqual(expectedToken, actual);
             }
         }
+        [ContractInvariantMethod]
         [TestMethod]
         public void StressTest()
         {
-            Action[] jobQueue = new Action[4]; 
+            Action[] jobQueue = new Action[4];
+            Action[][] actionList = new Action[4][];
+            
             ConcurrentQueue<Exception> errors = new ConcurrentQueue<Exception>();
             for (int i = 0; i < 4; i++)
             {
-                jobQueue[i] = () =>
+                int iCurrent = i;
+                actionList[iCurrent] = new Action[length];                
+                jobQueue[iCurrent] = () =>
                 {
                     using (OfficeFactory factory = new OfficeFactory("smtp.gmail.com", 587, "sygnion2", "sygnion01!"))
                     {
@@ -100,8 +104,7 @@ namespace TestRepo
                         ConcurrentBag<Action<string, DateTime, string>> bag = new ConcurrentBag<Action<string, DateTime, string>>();
 
                         Random rnd = new Random();
-                        Action[] actionList = new Action[length];
-
+                        
                         //Create jobs
                         for (int j = 0; j < length; j++)
                         {
@@ -110,15 +113,18 @@ namespace TestRepo
                                 lock (locker)
                                 {
                                     {
+                                        Contract.ContractFailed += Contract_ContractFailed;
                                         try
                                         {
                                             String expectedToken = Guid.NewGuid().ToString();
                                             int month = rnd.Next(1, 12);
                                             int day = month == 2 ? rnd.Next(1, 28) : rnd.Next(1, 30);
-                                            factory.SendCalendarEvent("dmodiwirijo@hotmail.com", "STRESSTEST", null, new DateTime(2015, month, day), expectedToken);
+                                            
+                                            factory.SendCalendarEvent("dmodiwirijo@hotmail.com", "STRESSTEST" + iCurrent, null, new DateTime(2015, month, day), expectedToken);
                                             string actual;
                                             OfficeFactory._tokens.TryGetValue(expectedToken, out actual);
                                             Assert.AreEqual(expectedToken, actual);
+                                            Contract.Invariant(false);
                                         }
                                         catch (Exception ex)
                                         {
@@ -127,13 +133,13 @@ namespace TestRepo
                                     }
                                 }
                             };
-                            actionList[j] = action;
+                            actionList[iCurrent][j] = action;
                         }
 
                         //Execute jobs parallel
                         ParallelLoopResult result = Parallel.For(0, length, ctr =>
                         {
-                            var task = Task.Factory.StartNew(actionList[ctr]);
+                            var task = Task.Factory.StartNew(actionList[iCurrent][ctr]);
                             tasks.Add(task);
                         });
 
@@ -149,6 +155,7 @@ namespace TestRepo
                             Console.WriteLine("[{0}]\r\n{1}", error.Message, error.InnerException != null ? error.InnerException.Message : null);
                         }
                     }
+                    GC.WaitForPendingFinalizers();
                 };
             };
 
@@ -157,8 +164,15 @@ namespace TestRepo
             {
                 var task = Task.Factory.StartNew(job);
                 tasks2.Add(task);
+                Task.WaitAll(tasks2.ToArray());
+                GC.WaitForPendingFinalizers();
             }
-            Task.WaitAll(tasks2.ToArray());
+            //Task.WaitAll(tasks2.ToArray());
+        }
+
+        private void Contract_ContractFailed(object sender, ContractFailedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
