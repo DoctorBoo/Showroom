@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientMail", "ClientMail\ClientMail\ClientMail.csproj", "{36C55DCD-4F76-4626-9693-207520B6926A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailTest", "ClientMail\MailTest\MailTest.csproj", "{27953802-2620-4D2D-BB76-8935A00F6F66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarGateSg1", "StarGateSg1\StarGateSg1.csproj", "{98F5D02A-5088-4165-8AFE-A3531302E30F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36C55DCD-4F76-4626-9693-207520B6926A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C55DCD-4F76-4626-9693-207520B6926A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C55DCD-4F76-4626-9693-207520B6926A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C55DCD-4F76-4626-9693-207520B6926A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27953802-2620-4D2D-BB76-8935A00F6F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27953802-2620-4D2D-BB76-8935A00F6F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27953802-2620-4D2D-BB76-8935A00F6F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27953802-2620-4D2D-BB76-8935A00F6F66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98F5D02A-5088-4165-8AFE-A3531302E30F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F5D02A-5088-4165-8AFE-A3531302E30F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F5D02A-5088-4165-8AFE-A3531302E30F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F5D02A-5088-4165-8AFE-A3531302E30F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
