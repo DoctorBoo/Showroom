@@ -54,6 +54,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,7 +63,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contexts\UserCtx.cs" />
+    <Compile Include="Entities\IUser.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\User_Role.cs" />
+    <Compile Include="Entities\AccountMgr.cs" />
+    <Compile Include="Entities\AddressBook.cs" />
     <Compile Include="Contexts\BookStoreCtx.cs" />
+    <Compile Include="Entities\ContactMoment.cs" />
+    <Compile Include="Entities\ContactType.cs" />
+    <Compile Include="Entities\CRM_CP.cs" />
+    <Compile Include="Entities\CRM_Customer_CP.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\Customer_Bank.cs" />
+    <Compile Include="Entities\Customer_CP.cs" />
+    <Compile Include="Entities\Customer_DelAdd.cs" />
+    <Compile Include="Entities\Customer_Extra.cs" />
+    <Compile Include="Contexts\SygnionDb.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserLogin.cs" />
+    <Compile Include="Entities\User_Email.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Migrations\201504022124258_InitialCreate.cs" />
@@ -105,6 +126,9 @@
     <EmbeddedResource Include="Migrations\201504022124258_InitialCreate.resx">
       <DependentUpon>201504022124258_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DAL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
