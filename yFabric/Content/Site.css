@@ -34,3 +34,8 @@ textarea {
         padding: 10px 15px;
     }
 }
+
+div.row.footer {
+  position: relative;
+  left: 73px;
+}
