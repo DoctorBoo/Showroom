@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace yFabric.Counters
 {
-    public class PerfCounterServicecs
+    public class PerfCounterService
     {
         List<PerCounterWrapper> _counters = new List<PerCounterWrapper>();
 
-        public PerfCounterServicecs()
+        public PerfCounterService()
         {
             _counters.Add(new PerCounterWrapper("Processor", "Processor", "% Processor Time", "_Total"));
             _counters.Add(new PerCounterWrapper("Paging", "Memory", "Pages/Second"));

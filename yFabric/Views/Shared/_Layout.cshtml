@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")    
+ 
 
     <script type="text/javascript">
         var appInsights=window.appInsights||function(config){
@@ -66,12 +65,13 @@
 
     </div>
 
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")    
     @RenderSection("Scripts", required: true)
     <script type="text/javascript">
     $(function () {
         ko.cleanNode($('#message')[0]);
-        ko.applyBindings(chatHub.instanceModel, $('#message')[0]);
+        ko.applyBindings(communicator.instanceModel, $('#message')[0]);
     });
     </script>
 </body>
