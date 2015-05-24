@@ -3,8 +3,27 @@
 <head>
     <title></title>
 	<meta charset="utf-8" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" />
 </head>
 <body>
+    <input type="text" id="message" placeholder="Message" data-bind="value:message" />
+    <input type="button" class="btn btn-primary" id="sendmessage" value="Send" data-bind="click:sendMessage" />
 
+    <div data-bind="foreach:messages">
+        <div data-bind="text:$data"></div>
+    </div>  
+    <script src="Scripts/jquery-1.10.2.js"></script>   
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="signalr/hubs"></script>
+    <script src="Scripts/knockout-2.3.0.js"></script>
+    <script src="Scripts/_chat.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            ko.cleanNode($('#message')[0]);
+            ko.applyBindings(chatHub.instanceModel);
+        });
+    </script>
+    
 </body>
 </html>

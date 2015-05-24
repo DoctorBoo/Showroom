@@ -1,50 +1,44 @@
 ﻿
-(function () {
-
-   // Declare a proxy to reference the hub. 
-
-    //$.connection.hub.start();
+var chatHub = (function () {
     
-    // Get the user name and store it to prepend to messages.
-    //$('#displayname').val(prompt('Enter your name:', ''));
+    try {
+        $('#message').focus();
 
-    // Set initial focus to message input box.  
+        var chat = chat = $.connection.chatHub;
 
-
-    $(function () {
-        try {
-            $('#message').focus();
-
-            var Model = function () {
-                var self = this;
-                self.message = ko.observable("");
-                self.messages = ko.observableArray();
-            };
-
-            Model.prototype = {
-                sendMessage: function () {
-                    var self = this;
-                    chat.server.send(self.message);
-                    self.message = '';
-                },
-                addMessage: function () {
-                    var self = this;
-                    self.messages.push(message);
-                }
-            };
-
-            var model = new Model();
-            ko.applyBindings(model);
-        } catch (e) {
-            console.log(e);
-        }
-        
-        var chat = $.connection.chatHub;
         $.connection.hub.logging = true;
 
         chat.client.newMessage = function (message) {
             model.addMessage(message);
         };
+
+        var Model = function () {
+            var self = this;
+            self.message = ko.observable("");
+            self.messages = ko.observableArray();
+        };
+
+        Model.prototype = {
+            sendMessage: function () {
+                var self = this;
+                chat.server.sendMessage(self.message());
+                self.message = '';
+            },
+            addMessage: function (message) {
+                var self = this;
+                self.messages.push(message);
+            }
+        };
+
+        
+    } catch (e) {
+        console.log(e);
+    }
+    var model = new Model();
+
+    $(function () {
+               
+
         // Create a function that the hub can call to broadcast messages.
         chat.client.broadcastMessage = function (name, message) {
             // Html encode display name and message. 
@@ -59,12 +53,22 @@
         $.connection.hub.start().done(function () {
             $('#sendmessage').click(function () {
                 // Call the Send method on the hub. 
-                chat.server.send('', $('#message').val());
+                //chat.server.send('', $('#message').val());
                 // Clear text box and reset focus for next comment. 
                 $('#message').val('').focus();
             });
         });
 
+        try {
+            ko.cleanNode($('#message')[0]);
+            ko.applyBindings(model);
+        } catch (e) {
+            console.log(e);
+        }
     });
 
+    return {
+        instanceModel: model,
+        viewModel: Model
+    }
 }());
