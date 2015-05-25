@@ -15,7 +15,7 @@ namespace yFabric.Hubs
             StartCounterCollection();
         }
 
-        private void StartCounterCollection()
+        public  void StartCounterCollection()
         {
             var task = Task.Factory.StartNew(async () =>
             {

@@ -13,13 +13,20 @@ namespace yFabric.Counters
         public PerfCounterService()
         {
             _counters.Add(new PerCounterWrapper("Processor", "Processor", "% Processor Time", "_Total"));
-            _counters.Add(new PerCounterWrapper("Paging", "Memory", "Pages/Second"));
-            _counters.Add(new PerCounterWrapper("Disk", "Physical Disk", "% Disk Time", "_Total"));
+            try
+            {
+                //_counters.Add(new PerCounterWrapper("Paging", "Memory", "Pages/Second"));
+                //_counters.Add(new PerCounterWrapper("Disk", "Physical Disk", "% Disk Time", "_Total"));
+            }
+            finally
+            {
+
+            }
         }
 
         public dynamic GetResults()
         {
-            return _counters.Select(c => new { Name = c.Name, Value = c.Value });
+            return _counters.ToList<PerCounterWrapper>().Select(c => new { name = c.Name, value = c.Value });
         }
     }
 }

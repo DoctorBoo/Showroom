@@ -14,4 +14,5 @@
 /// <reference path="app/common.js" />
 /// <reference path="jquery.signalr-2.2.0.min.js" />
 /// <reference path="jquery-ui-1.11.4.min.js" />
+/// <reference path="smoothie.js" />
 /// <reference path="_communicator.js" />

@@ -7,25 +7,31 @@
     <link href="Content/Site.css" rel="stylesheet" />
 </head>
 <body>
-    <input type="text" id="name" placeholder="Nickname" data-bind="value:nick"  />
-    <input type="text" id="message" placeholder="Message" data-bind="value:message" />
-    <input type="button" class="btn btn-primary" id="sendmessage" value="Send" data-bind="click:sendMessage" />
+    <div class="row" data-bind="foreach:counters">
+        <div class="col-md-12">
+            <h2 data-bind="text:name"></h2>
+            <canvas width="200" height="50" data-bind="attr:{'id':name}"></canvas>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <input type="text" id="message" placeholder="Message" data-bind="value:message" />
+            <input type="button" class="btn btn-primary" id="sendmessage" value="Send" data-bind="click:sendMessage" />
 
-    <div id="chats" data-bind="foreach:messages">
-        <div data-bind="text:$data"></div>
-    </div>  
-    <!--<script src="Scripts/jquery-1.10.2.js"></script>-->   
+            <div id="chats" data-bind="foreach:messages">
+                <div data-bind="text:$data"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--<script src="Scripts/jquery-1.10.2.js"></script>-->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>    
     <script src="/signalr/hubs"></script>
-    <script src="Scripts/knockout-2.3.0.js"></script>   
+    <script src="Scripts/knockout-2.3.0.js"></script>
+    <script src="Scripts/smoothie.js"></script>
     <script src="Scripts/_communicator.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            //ko.cleanNode($('#message')[0]);
-            //ko.applyBindings(communicator.instanceModel);
-        });
-    </script>
-    
+
+
 </body>
 </html>

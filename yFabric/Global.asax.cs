@@ -13,6 +13,7 @@ namespace yFabric
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static long TicketNr { get; private set; }
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -20,6 +21,11 @@ namespace yFabric
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        void Session_Start(object sender, EventArgs e)
+        {
+            TicketNr++;
         }
     }
 }

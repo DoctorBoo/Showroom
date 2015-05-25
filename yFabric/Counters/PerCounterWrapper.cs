@@ -11,9 +11,10 @@ namespace yFabric.Counters
         public PerCounterWrapper(string name , string category, string counter , string instance = "")
         {
             _counter = new PerformanceCounter(category, counter, instance, readOnly: true);
+            Name = name;
         }
 
-        public int Name { get; set; }
+        public string Name { get; set; }
         public float Value { get
             {
                 return _counter.NextValue();
