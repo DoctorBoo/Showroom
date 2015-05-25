@@ -136,10 +136,10 @@ var communicator = (function () {
     $(function () {
 
         try {
-            //ko.cleanNode($('#message')[0]);
+            ko.cleanNode($('#message')[0]);
             ko.applyBindings(model);
 
-            perf.startCounterCollection();
+            //perf.startCounterCollection();
         } catch (e) {
             console.log(e);
         }
