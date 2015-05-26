@@ -39,3 +39,14 @@ div.row.footer {
   position: relative;
   left: 73px;
 }
+
+iframe{
+  height: 104px;
+  top: -31px;
+  position: relative;
+}
+#chatmessages{
+  position: relative;
+  left: 15px;
+  top: -51px;
+}

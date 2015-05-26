@@ -4,7 +4,7 @@ var communicator = (function () {
     try {
         
         var chat = $.connection.chatHub;
-        var perf = $.connection.perfHub;
+        var perf = null;//$.connection.perfHub;
         chat.connection.stateChanged(connectionStateChanged);
 
         self.identity = null;
@@ -19,9 +19,10 @@ var communicator = (function () {
             communicator.identity = message;
         };
 
-        perf.client.newCounters = function (counters) {
-            model.addCounters(counters);
-        }
+        if (perf)
+            perf.client.newCounters = function (counters) {
+                model.addCounters(counters);
+            }
 
         var ChartEntry = function (name) {
             var self = this;
@@ -109,9 +110,9 @@ var communicator = (function () {
             addMessage: function (message) {               
                 var self = this;
 
-                self.messages.push(message);
-                self.chatmessages.push(message);
-                $('#chatmessages').append('<div>' + message + '<div/>')
+                self.messages.unshift(message);
+                self.chatmessages.unshift(message);
+                $('#chatmessages').prepend('<div>' + message + '<div/>')
                 if (location.toString().indexOf('index.html') < 0) {
                     var iframe = $('iframe');
                     iframe.contents().find('#chats').remove();
