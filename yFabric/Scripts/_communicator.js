@@ -1,28 +1,38 @@
 ﻿
+var PerfHub = (function () {
+	var self = PerfHub;
+	
+	function PerfHub() {
+		this.instance = null;//$.connection.perfHub;
+	};
+	
+	return PerfHub;
+})();
+
 var communicator = (function () {
     var self = this;
     try {
         
-        var chat = $.connection.chatHub;
-        var perf = null;//$.connection.perfHub;
+    	var chat = $.connection.chatHub;
+		self.perfHub = new PerfHub().instance;
+		var perf = self.perfHub;
         chat.connection.stateChanged(connectionStateChanged);
 
         self.identity = null;
 
         $.connection.hub.logging = true;
-        $.connection.hub.start();
-
+        
         chat.client.newMessage = function (message) {
             model.addMessage(message);
         };
         chat.client.Identity = function (message) {
             communicator.identity = message;
         };
-
-        if (perf)
-            perf.client.newCounters = function (counters) {
-                model.addCounters(counters);
-            }
+		
+        if (perf && perf.client)
+        	perf.client.newCounters = function (counters) {
+        		model.addCounters(counters);
+        	};
 
         var ChartEntry = function (name) {
             var self = this;
@@ -95,13 +105,13 @@ var communicator = (function () {
                     if (connectionState !== 1) {
                         $.connection.hub.start().done(function () {
                             if (message) {
-                                deferred.resolve(message);
-                                sendMessage(message);
+                                //deferred.resolve(message);
+                                communicator.sendMessage(message);
                             }
                         });
                     } else {
-                        //deferred.resolve(message);
-                        sendMessage(message);
+                        deferred.resolve(message);
+                        communicator.sendMessage(message);
                     }
                 });
 
@@ -137,10 +147,7 @@ var communicator = (function () {
     $(function () {
 
         try {
-            ko.cleanNode($('#message')[0]);
-            ko.applyBindings(model);
-
-            //perf.startCounterCollection();
+        	$.connection.hub.start();
         } catch (e) {
             console.log(e);
         }
@@ -175,11 +182,19 @@ var communicator = (function () {
             }
         }
     }
+    var startPerf = function () {
+    	perf = new PerfHub().instance;
+    	if (perf)
+    		perf.client.newCounters = function (counters) {
+    			model.addCounters(counters);
+    		};
+    };
     return {
-        chatHub: chat,
+    	chatHub: chat,
         instanceModel: model,
         viewModel: Model,
         connectionState: connectionState,
-        identity : identity 
+        identity: identity,
+    	sendMessage: sendMessage
     }
 }());
