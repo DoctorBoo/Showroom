@@ -1,11 +1,26 @@
-﻿
+﻿var $connectionperfHub = $.connection.perfHub;
+
+var globals = (function (instance) {
+	var self = this;
+	
+	$(function () {
+		this.instance = instance;
+	})
+	return {
+		
+	}
+}($connectionperfHub));
+
 var PerfHub = (function () {
 	var self = PerfHub;
 	
 	function PerfHub() {
 		this.instance = null;//$.connection.perfHub;
 	};
-	
+	//Do namespace injection elsewhere:
+	//(function () {
+	//	this.instance = $.connection.perfHub;;
+	//}).apply(PerfHub);
 	return PerfHub;
 })();
 
@@ -94,28 +109,13 @@ var communicator = (function () {
 
             sendMessage: function () {
                 var self = this;
-                var deferred = $.Deferred();
+
                 var message = $.isFunction(self.message) ? self.message() : self.message;
 
                 chat.server.getIdentity().done(function () {
-
-                    var id = communicator.identity || 'This noob';
-                    message = id + ' says: ' + message;
-
-                    if (connectionState !== 1) {
-                        $.connection.hub.start().done(function () {
-                            if (message) {
-                                //deferred.resolve(message);
-                                communicator.sendMessage(message);
-                            }
-                        });
-                    } else {
-                        deferred.resolve(message);
-                        communicator.sendMessage(message);
-                    }
+                	sendMessage(message);
                 });
 
-                return deferred;
             },
             addMessage: function (message) {               
                 var self = this;
@@ -132,10 +132,30 @@ var communicator = (function () {
         var model = new Model();
 
         var sendMessage = function (message) {
-            //var contextArgs = Array.prototype.slice.call(arguments);
-            chat.server.sendMessage(message).done(function () {
-                model.message('');
-            });
+        	//var contextArgs = Array.prototype.slice.call(arguments);
+        	var deferred = $.Deferred();
+
+        	var doSend = function (message) {
+        		var model = this;
+        		chat.server.sendMessage(message).always(function () {
+        			deferred.resolve();
+        			model.message('');        			
+        		});
+        	};
+
+        	var id = communicator.identity || 'This noob';
+        	message = id + ' says: ' + message;
+
+        	if (communicator.connectionState !== 1) {
+        		$.connection.hub.start().done(function () {
+        			if (message) {
+        				doSend.apply(model, [message]);
+        			}
+        		});
+        	} else {
+        		doSend.apply(model,[message]);
+        	}
+        	return deferred;
         };
 
         //model.sendMessage().always(sendMessage);
