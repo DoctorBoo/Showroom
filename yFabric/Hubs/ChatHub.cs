@@ -14,33 +14,7 @@ namespace yFabric.Hubs
     {
         public ChatHub()
         {
-            //StartCounterCollection();
-        }
 
-        public void StartCounterCollection()
-        {
-            var task = Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    var perfService = new PerfCounterService();
-                    var results = perfService.GetResults();
-                    Clients.All.newCounters(results);
-                    while (true)
-                    {
-                        results = perfService.GetResults();
-                        Clients.All.newCounters(results);
-                        Task.Delay(2000);
-                    };
-                }
-                catch (AggregateException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-            }, TaskCreationOptions.LongRunning);
-
-            Task.WaitAll(task);
         }
 
         private const string _message = "{0}";

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Repository.Contexts;
+using System.Security.Principal;
+using System.Linq;
 
 namespace yFabric.Models
 {
@@ -36,4 +38,27 @@ namespace yFabric.Models
             return new ApplicationDbContext();
         }
     }
+
+	public static class Extensions
+	{
+		/// <summary>
+		/// Fallback is User.Identity.Name
+		/// </summary>
+		/// <param name="User"></param>
+		/// <returns></returns>
+		public static string GetNick (this IPrincipal User)
+		{
+			string nickName = string.Empty;
+			if (User.Identity.IsAuthenticated)
+			{
+				var usersContext = new ApplicationDbContext();
+				var appUser = (from u in usersContext.Users
+								where u.UserName.Equals(User.Identity.Name)
+								select new { Name = u.Nick!= null && u.Nick.Trim() != "" ? u.Nick : User.Identity.Name}).FirstOrDefault();								
+				nickName = appUser.Name;
+			}
+			
+			return nickName;
+		}
+	}
 }
