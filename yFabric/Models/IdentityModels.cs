@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Repository.Contexts;
 
 namespace yFabric.Models
 {
@@ -10,6 +11,8 @@ namespace yFabric.Models
     public class ApplicationUser : IdentityUser
     {
         public string Hometown { get; set; }
+		
+		public string Nick { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

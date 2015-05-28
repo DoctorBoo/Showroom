@@ -87,6 +87,10 @@ namespace yFabric.Models
 
         [Display(Name = "Hometown")]
         public string Hometown { get; set; }
+
+		[Required]
+		[Display(Name = "Nick")]
+		public string Nick { get; set; }
     }
 
     public class ResetPasswordViewModel
