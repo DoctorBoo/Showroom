@@ -10,8 +10,12 @@ namespace yFabric
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+			bundles.Add(new ScriptBundle("~/bundles/jqueryold").Include(
+					"~/Scripts/jquery.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js",
+				 //"~/Scripts/jquery.min.js",
                 "~/Scripts/jquery.signalR-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -40,10 +44,35 @@ namespace yFabric
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js"));
+			
+			//Telerik
+			bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
+						"~/Scripts/kendo/2014.3.1411/kendo.all.min.js",
+						"~/Scripts/kendo/2014.3.1411/kendo.aspnetmvc.min.js",
+						"~/Scripts/kendo/2014.3.1411/kendo.timezones.min.js"));
+
+			bundles.Add(new ScriptBundle("~/bundles/demo").Include(
+						"~/Scripts/console.js",
+						"~/Scripts/prettify.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",
+				 //"~/Content/web/kendo.bootstrap.min.css",
                  "~/Content/Site.css"));
+			
+			//Telerik
+			bundles.Add(new StyleBundle("~/Content/kendo/css").Include(
+						"~/Content/web/kendo.common.min.css",
+						"~/Content/web/kendo.rtl.min.css",
+						"~/Content/web/kendo.default.min.css",
+						"~/Content/web/kendo.default.mobile.min.css",
+						"~/Content/dataviz/kendo.dataviz.min.css",
+						"~/Content/dataviz/kendo.dataviz.default.min.css",
+						"~/Content/mobile/kendo.mobile.all.min.css"));
+			bundles.Add(new StyleBundle("~/Content/shared/css").Include(
+						"~/Content/shared/examples-offline.css"));
+
+			bundles.IgnoreList.Clear();
         }
     }
 }

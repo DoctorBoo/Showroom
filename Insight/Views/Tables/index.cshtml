@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Repository.Contexts.User>
+
+@{
+	string title = "Users";
+    ViewBag.Title = title;
+}
+
+
+<h2>@title</h2>
+
+<div id="email-settindsgs">
+	@(Html.Kendo().DatePicker()
+			  .Name("monthpicker")
+			  .Start(CalendarView.Year)
+			  .Depth(CalendarView.Year)
+			  .Format("MMMM yyyy")
+			  .Value("November 2011")
+			  .HtmlAttributes(new { style = "width:150px" })
+	)
+</div>
+
+<style scoped>
+    #example h2 {
+        font-weight: normal;
+    }
+    #email-settings {
+        height: 135px;
+        width: 395px;
+        margin: 30px auto;
+        padding: 110px 0 0 30px;
+        background: url('@Url.Content("~/Content/web/datepicker/mailSettings.png")') transparent no-repeat 0 0;
+    }
+
+</style>

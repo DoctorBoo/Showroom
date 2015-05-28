@@ -113,6 +113,7 @@
     <Compile Include="Entities\User_Email.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Migrations\201504022124258_InitialCreate.cs" />
     <Compile Include="Migrations\201504022124258_InitialCreate.Designer.cs">
       <DependentUpon>201504022124258_InitialCreate.cs</DependentUpon>

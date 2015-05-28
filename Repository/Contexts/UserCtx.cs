@@ -8,7 +8,7 @@ namespace Repository.Contexts
     public partial class UserCtx : DbContext
     {
         public UserCtx()
-            : base("name=UserCtx")
+			: base("name=UserCtx")
         {
         }
 
@@ -57,5 +57,7 @@ namespace Repository.Contexts
                 .Property(e => e.Text2)
                 .IsUnicode(false);
         }
+
+		public System.Data.Entity.DbSet<Repository.Contexts.User> Users { get; set; }
     }
 }

@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+	@Styles.Render("~/Content/kendo/css")
+	@Styles.Render("~/Content/shared/css")
+
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/kendo")	
+
+	@* Include the JavaScript for the current culture *@
+	@{ 
+		var culture = System.Threading.Thread.CurrentThread.CurrentCulture.ToString(); 
+	}
+	<script src="@Url.Content("~/Scripts/cultures/kendo.culture." + culture + ".min.js")">
+		jQuery(function () {
+			try {
+				kendo.culture("@culture");
+			} catch (e) {
+				console.log(e);
+			}
+		})
+	</script>
+	
+	@RenderSection("HeadContent", false)
+    <title>Observlet</title>
+</head>
+<body>
+
+	@RenderBody()
+	
+</body>
+</html>

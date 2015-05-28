@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div id="clientsDb">
+	@(Html.Kendo().Grid<Repository.Contexts.User>()
+		.Name("grid")
+		.Columns(columns =>
+		{
+			columns.Bound(c => c.UserID).Width(110);
+			columns.Bound(c => c.LastName).Width(140);
+			columns.Bound(c => c.FirstName).Width(190);
+			columns.Bound(c => c.Func);
+
+		})
+		.HtmlAttributes(new { style = "height: 380px;" })
+		.Scrollable()
+		.Groupable()
+		.Sortable()
+		.Pageable(pageable => pageable
+			.Refresh(true)
+			.PageSizes(true)
+			.ButtonCount(5))
+		.DataSource(dataSource => dataSource
+			.Ajax()
+			.Read(read => read.Action("Customers_Read", "Tables"))
+		)
+	)
+</div>
+
+<style scoped>
+    #clientsDb {
+        width: 952px;
+        height: 396px;
+        margin: 20px auto 0;
+        
+        background: url('@Url.Content("~/content/web/grid/clientsDb.png")') no-repeat 0 0;
+    }
+</style>

@@ -2,10 +2,9 @@
     @Html.Partial("_Home")
 }
 @section Scripts{
-	<script src="~/Scripts/jquery-1.10.2.js"></script>
-	<script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
 	<script src="/signalr/hubs"></script>
-    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/knockout")
 	@Scripts.Render("~/bundles/chat")    
 	@Scripts.Render("~/bundles/app")	
 		
