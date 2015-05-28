@@ -13,9 +13,8 @@ namespace yFabric.Controllers
         public ActionResult Index()
         {
 			ViewBag.Name = User.GetNick();
-			object model = ViewBag.Name;
 
-			return View(model);
+			return View(User.GetNick() as object);
         }
     }
 }

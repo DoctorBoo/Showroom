@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Repository.Contexts;
+using HubContext = Microsoft.AspNet.SignalR.Hubs.HubCallerContext;
 using System.Security.Principal;
 using System.Linq;
 
@@ -58,6 +59,16 @@ namespace yFabric.Models
 				nickName = appUser.Name;
 			}
 			
+			return nickName;
+		}
+		public static string GetNick(this HubContext Context)
+		{
+			string nickName = string.Empty;
+			if (Context.User.Identity.IsAuthenticated)
+			{
+				nickName = Context.User.GetNick();
+			}
+
 			return nickName;
 		}
 	}

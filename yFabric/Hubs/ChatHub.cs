@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using yFabric.Counters;
+using yFabric.Models;
 
 namespace yFabric.Hubs
 {
@@ -29,7 +30,7 @@ namespace yFabric.Hubs
         {
             if (Context.User.Identity.IsAuthenticated)
             {
-                Clients.Caller.Identity(Context.User.Identity.Name);
+                Clients.Caller.Identity(Context.GetNick());
             }
             else
             {
