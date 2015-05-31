@@ -5,7 +5,7 @@
 }
 
 <h2>Index</h2>
-<div id="clientsDb">
+<div class="grid">
 	@(Html.Kendo().Grid<Repository.Contexts.User>()
 		.Name("grid")
 		.Columns(columns =>
@@ -30,9 +30,11 @@
 		)
 	)
 </div>
+<div class="grid2">
 
+</div>
 <style scoped>
-    #clientsDb {
+    .grid {
         width: 952px;
         height: 396px;
         margin: 20px auto 0;
@@ -40,3 +42,4 @@
         background: url('@Url.Content("~/content/web/grid/clientsDb.png")') no-repeat 0 0;
     }
 </style>
+<script src="~/Scripts/datasources.js"></script>

@@ -11,3 +11,7 @@ Change identityUser
 1. Enable-Migrations –EnableAutomaticMigrations
 2. Add-Migration Init 
 3. Update-Database
+
+Steps EF
+-------------------
+1. Install-Package EntityFramework -Version 6.1.3

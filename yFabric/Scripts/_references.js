@@ -521,3 +521,4 @@
 /// <reference path="../content/web/globalization/cultures/kendo.culture.fr-FR.js" />
 /// <reference path="../content/web/integration/jquery.signalr-1.1.3.min.js" />
 /// <reference path="jquery.min.js" />
+/// <reference path="datasources.js" />

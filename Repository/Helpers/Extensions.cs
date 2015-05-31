@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Principal;
 using System.Security.Claims;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System.Collections;
 
@@ -25,10 +26,21 @@ namespace Repository.Helpers
 				while (await cursor.MoveNextAsync())
 				{
 					var batch = cursor.Current;
-					foreach (var document in batch)
-					{
-						// process document
-						list.Add(document);
+					foreach (var doc in batch)
+					{						
+						var elements = doc.Elements.ToArray();
+						// process document						
+						int length = doc.Elements.ToArray().Length;
+						dynamic[] elts = new dynamic[length];
+
+						for (int i = 0; i < length; i++)
+						{
+							dynamic value = new { name = elements[i].Name, value = elements[i].Value.ToJson()};
+							elts[i] = value;
+						}
+						var mapped = new {elts};
+
+						list.Add(mapped);						
 						count++;
 					}
 				}

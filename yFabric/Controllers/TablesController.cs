@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using yFabric.Models;
 using Kendo.Mvc.Extensions;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace yFabric.Controllers
 {
@@ -29,6 +31,24 @@ namespace yFabric.Controllers
 			var appUsers = usersContext.Users.ToList<User>();
 			
 			return appUsers;
+		}
+		public ActionResult Restaurants_Read([DataSourceRequest]DataSourceRequest request)
+		{
+			return Json(GetRestaurants().ToJson());
+		}
+		public ActionResult GetRestaurants()
+		{
+			var myJson = DoGetRestaurants().ToJson();					
+			return View(myJson);
+		}
+
+		private static IMongoCollection<BsonDocument> DoGetRestaurants()
+		{
+			string document = "restaurants";
+			string test = "test";
+			var mongoContext = new MongoCtx();
+			var collection = mongoContext.GetData(test, document);
+			return collection;
 		}
     }
 }
