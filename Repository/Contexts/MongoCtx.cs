@@ -16,7 +16,7 @@ namespace Repository.Contexts
 
 		public IMongoCollection<BsonDocument> GetData(string catalogDb, string document)
 		{
-			var connectionString = "mongodb://localhost:27017/restautants?connect=automatic";
+			var connectionString = "mongodb://localhost:27017?connect=automatic";
 
 			//take database name from connection string
 			var _databaseName = MongoUrl.Create(connectionString).DatabaseName;

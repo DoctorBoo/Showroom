@@ -40,6 +40,8 @@ namespace yFabric.Tests
 			Task.WaitAll(waitResult);
 
 			var result = waitResult.Result;
+			long count = list.Count;
+			Assert.AreEqual(25359, count);
 		}
 		[TestMethod]
 		public void CulturesTest()
