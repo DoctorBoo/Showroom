@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using yFabric.DataContexts;
 
 namespace yFabric
 {
@@ -21,6 +22,8 @@ namespace yFabric
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+			StaticCache.LoadStaticCache();
         }
 
         void Session_Start(object sender, EventArgs e)

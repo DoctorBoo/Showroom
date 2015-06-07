@@ -9,9 +9,12 @@ using yFabric.Models;
 using Kendo.Mvc.Extensions;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Threading.Tasks;
+using Repository.Helpers;
 
 namespace yFabric.Controllers
 {
+	[Authorize]
     public class TablesController : Controller
     {
         // GET: Tables
@@ -21,7 +24,6 @@ namespace yFabric.Controllers
 		}
 		public ActionResult Customers_Read([DataSourceRequest]DataSourceRequest request)
 		{
-
 			return Json(GetCustomers().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
 		}
 

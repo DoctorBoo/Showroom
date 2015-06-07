@@ -1,44 +1,73 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+	ViewBag.Title = "MongoDb";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Index</h2>
-<div class="grid">
-	@(Html.Kendo().Grid<Repository.Contexts.User>()
-		.Name("grid")
-		.Columns(columns =>
-		{
-			columns.Bound(c => c.UserID).Width(110);
-			columns.Bound(c => c.LastName).Width(140);
-			columns.Bound(c => c.FirstName).Width(190);
-			columns.Bound(c => c.Func);
+<div id="details"></div>
 
-		})
-		.HtmlAttributes(new { style = "height: 380px;" })
-		.Scrollable()
-		.Groupable()
-		.Sortable()
-		.Pageable(pageable => pageable
-			.Refresh(true)
-			.PageSizes(true)
-			.ButtonCount(5))
-		.DataSource(dataSource => dataSource
-			.Ajax()
-			.Read(read => read.Action("Customers_Read", "Tables"))
-		)
-	)
-</div>
+<script id="listTemplate" type="text/x-kendo-template">
+	
+	<ul>
+		# for (var i = 0; i < data.grades.length; i++) { #
+		<li>Received #= data.grades[i].grade # at #= kendo.toString(new Date(data.grades[i].date), 'd-MMM-yyyy hh:mm') #</li>
+		# } #
+	</ul>
+</script>
+
+<script id="dataTemplate" type="text/x-kendo-template">
+	#=data.id#
+</script>
+
+<script id="timeTemplate" type="text/x-kendo-template">	  
+	<span ng-bind=templateFunction(dataItem.Time)>#: data.Time# </span>
+</script>
+
+<script id="popup-editor" type="text/x-kendo-template">
+	
+	<h3>Edit Restaurant</h3>
+	<p>
+		<label>Name:<input name="name" /></label>
+	</p>
+	<p>
+		<label>
+			New Grade:
+			<select id="grades">
+				<option value="null"></option>
+				<option value="A">A</option>
+				<option value="B">B</option>
+				<option value="C">C</option>
+				<option value="D">D</option>
+			</select>
+		</label>
+		`
+	<p>
+		<label>
+			Time went:
+			 globals.timeEditor
+			<input id="timepicker" type="time" name="Time" ng-bind=templateFunction(data.Time) />
+			<span ng-bind=templateFunction(dataItem.Time)>#: data.Time# </span>
+		</label>
+	</p>
+
+	<ul>
+		# for (var i = 0; i < data.grades.length; i++) { #
+		<li>Received #= data.grades[i].grade # at #= kendo.toString(new Date(data.grades[i].date), 'd-MMM-yyyy hh:mm') #</li>
+		# } #
+	</ul>
+	</p>	
+</script>
 <div class="grid2">
 
 </div>
+
+
 <style scoped>
-    .grid {
+    .grid,grid2 {
         width: 952px;
         height: 396px;
         margin: 20px auto 0;
-        
+
         background: url('@Url.Content("~/content/web/grid/clientsDb.png")') no-repeat 0 0;
     }
 </style>
