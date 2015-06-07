@@ -61,33 +61,37 @@ var datasources = (function () {
 					url: "api/tables",
 					data: function () {						
 						return {
-							take: 1000
+							take: 100
 						}
 					},
 					type: "get",
 					dataType: "json"
 				},
-				update:function (e) {
-					// batch is enabled
-					//var updateItems = e.data.models;
-					// batch is disabled
-					var updatedItem = e.data;
-
-					// save the updated item to the original datasource
-					$.post({
-						url: "api/tables/UpdateRestaurant",
-						data: JSON.stringify({restaurant: updatedItem}),
-						dataType: "json"
-					});
-
-					// on success
-					e.success(function (d) {
-						globals.consoleLog(d);
-					});
-					// on failure
-					e.error("XHR response", "status code", "error message");
-				},
-			},			
+				update: {
+					url: "api/tables/UpdateRestaurant",
+					//data: JSON.stringify({
+					//	model: function (d) {
+					//		return d;
+					//	}
+					//}),
+					type: "post",
+					dataType: "json"
+				}
+			},
+			error: function (e) {
+				/* the e event argument will represent the following object:
+		
+				{
+					errorThrown: "custom error",
+					errors: ["foo", "bar"]
+					sender: {... the Kendo UI DataSource instance ...}
+					status: "customerror"
+					xhr: null
+				}
+		
+				*/
+				globals.consoleLog("Errors: ",e);
+			},
 			pageSize: 10,
 			batch: true,
 			refresh: true,
@@ -100,6 +104,14 @@ var datasources = (function () {
 			//	}
 			//},
 			schema: {
+				model: {
+					id: "id",
+					fields: {
+						id: { editable: false, nullable: true },
+						name: { validation: { required: false } },
+						Time: { validation: { required: false } }
+					}
+				},
 				parse: function (response) {
 					var restaurants = [];
 					for (var i = 0; i < response.length; i++) {
@@ -157,11 +169,7 @@ var datasources = (function () {
 			pageable: true,
 			refresh: true,
 			sortable: true,			
-			editable: {
-				mode: "popup", //incell
-				//template: kendo.template($("#popup-editor").html()),
-				update:true
-			},
+			editable: "inline",
 			filterable: {
 				mode: "row"
 			},
@@ -200,14 +208,15 @@ var datasources = (function () {
 				//template: $("#timeTemplate").html(),
 				format: "{0: HH:mm:ss}"
 			},
-			{ command: "edit" }
+			{
+				command: [{
+					name: "edit",
+					text: { edit: "Custom edit", cancel: "Custom cancel", update: "Custom update" }
+				}]
+			}
 			],
 			
-		})
-		;
-	//	$.ajax({ type: 'get', url: 'api/tables' }).done(function (d) {
-	//		console.log(d); data = d;
-	//	})
+		});
 	})
 	
 	return {
