@@ -11,6 +11,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Threading.Tasks;
 using Repository.Helpers;
+using System.Net;
 
 namespace yFabric.Controllers
 {
@@ -19,7 +20,8 @@ namespace yFabric.Controllers
     {
         // GET: Tables
 		public ActionResult Index([DataSourceRequest]DataSourceRequest request)
-		{
+		{	
+
 			return View();
 		}
 		public ActionResult Customers_Read([DataSourceRequest]DataSourceRequest request)
@@ -37,6 +39,10 @@ namespace yFabric.Controllers
 		public ActionResult Restaurants_Read([DataSourceRequest]DataSourceRequest request)
 		{
 			return Json(GetRestaurants().ToJson());
+		}
+		public async Task<ActionResult> Restaurants_Update([DataSourceRequest]DataSourceRequest request)
+		{
+			return View("{}");  
 		}
 		public ActionResult GetRestaurants()
 		{

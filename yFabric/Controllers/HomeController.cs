@@ -13,7 +13,7 @@ namespace yFabric.Controllers
         public ActionResult Index()
         {
 			ViewBag.Name = User.GetNick();
-
+			
 			return View(User.GetNick() as object);
         }
     }

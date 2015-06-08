@@ -302,6 +302,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\RestaurantsController.cs" />
     <Compile Include="Controllers\API\TablesController.cs" />
+    <Compile Include="Controllers\TextResult.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />

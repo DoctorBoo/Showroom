@@ -35,11 +35,12 @@ namespace yFabric.Controllers.API
 			return list;
 
 		}
-		[HttpGet]
-		public async Task<IHttpActionResult> UpdateRestaurant([FromBody]dynamic value)
+		[HttpPost]
+		public async Task<IHttpActionResult> UpdateRestaurant(dynamic value)
 		{
-			dynamic obj = await Request.Content.ReadAsAsync<JObject>();
-			var y = obj;
+			var obj = await Request.Content.ReadAsFormDataAsync();
+			//var x = await Request.Content.ReadAsHttpRequestMessageAsync();
+			var y = await Request.Content.ReadAsStringAsync();
 			//todo
 			// Get a list of products from a database.
 			List<dynamic> list = new List<dynamic>();
@@ -68,25 +69,6 @@ namespace yFabric.Controllers.API
 		}
 
 		public object List { get; set; }
-		public class TextResult : IHttpActionResult
-		{
-			string _value;
-			HttpRequestMessage _request;
 
-			public TextResult(string value, HttpRequestMessage request)
-			{
-				_value = value;
-				_request = request;
-			}
-			public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
-			{
-				var response = new HttpResponseMessage()
-				{
-					Content = new StringContent(_value),
-					RequestMessage = _request
-				};
-				return Task.FromResult(response);
-			}
-		}
 	}
 }

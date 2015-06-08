@@ -56,7 +56,8 @@ var datasources = (function () {
 		]
 	});
 	var readDatasource = new kendo.data.DataSource({
-			transport: {
+		transport: {
+				type: "odata",
 				read: {
 					url: "api/tables",
 					data: function () {						
@@ -65,18 +66,24 @@ var datasources = (function () {
 						}
 					},
 					type: "get",
-					dataType: "json"
+					dataType: "json",
+					contentType: "application/json; charset=utf-8"
 				},
 				update: {
-					url: "api/tables/UpdateRestaurant",
-					//data: JSON.stringify({
-					//	model: function (d) {
-					//		return d;
-					//	}
-					//}),
+					url: "api/Tables/UpdateRestaurant",
+					//data:JSON.stringify({ model: model}),
 					type: "post",
 					dataType: "json"
-				}
+				},
+				parameterMap: function(options, operation) {                                       
+					// note that you may need to merge that postData with the options send from the DataSource
+					globals.consoleLog(options);
+
+					if (operation !== "read" && options.models) {
+						return { models: kendo.stringify(options.models) }; //return kendo.stringify(model);
+					}
+					return options;//JSON.stringify(options)
+				}  
 			},
 			error: function (e) {
 				/* the e event argument will represent the following object:
