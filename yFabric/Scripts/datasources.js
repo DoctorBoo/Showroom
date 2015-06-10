@@ -70,17 +70,19 @@ var datasources = (function () {
 					contentType: "application/json; charset=utf-8"
 				},
 				update: {
-					url: "api/Tables/UpdateRestaurant",
+					url: "api/Restaurants",
 					//data:JSON.stringify({ model: model}),
 					type: "post",
 					dataType: "json"
 				},
-				parameterMap: function(options, operation) {                                       
+				parameterMap: function (options, operation) {
+					var paramMap = kendo.data.transports.odata.parameterMap(options);
+
 					// note that you may need to merge that postData with the options send from the DataSource
 					globals.consoleLog(options);
 
 					if (operation !== "read" && options.models) {
-						return { models: kendo.stringify(options.models) }; //return kendo.stringify(model);
+						return kendo.stringify({ id: 1 });// { models: kendo.stringify(options.models) }; //return kendo.stringify(model);
 					}
 					return options;//JSON.stringify(options)
 				}  

@@ -30,7 +30,7 @@ namespace yFabric.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("UserCtx", throwIfV1Schema: false)
+			: base("DefaultConnection", throwIfV1Schema: false)
         {            
         }
 

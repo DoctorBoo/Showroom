@@ -36,7 +36,7 @@ namespace yFabric.Controllers.API
 
 		}
 		[HttpPost]
-		public async Task<IHttpActionResult> UpdateRestaurant(dynamic value)
+		public async Task<IHttpActionResult> UpdateRestaurant(dynamic models)
 		{
 			var obj = await Request.Content.ReadAsFormDataAsync();
 			//var x = await Request.Content.ReadAsHttpRequestMessageAsync();

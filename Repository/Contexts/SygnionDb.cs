@@ -8,7 +8,7 @@ namespace Repository.Contexts
     public partial class SygnionDb : DbContext
     {
         public SygnionDb()
-            : base("name=SygnionDb")
+			: base("name=DefaultConnection")
         {
         }
 

@@ -8,7 +8,7 @@ namespace Repository.Contexts
     public partial class UserCtx : DbContext
     {
         public UserCtx()
-			: base("name=UserCtx")
+			: base("name=DefaultConnection")
         {
         }
 
