@@ -57,7 +57,7 @@ var datasources = (function () {
 	});
 	var readDatasource = new kendo.data.DataSource({
 		transport: {
-				type: "odata",
+				//type: "odata",
 				read: {
 					url: "api/tables",
 					data: function () {						
@@ -70,19 +70,22 @@ var datasources = (function () {
 					contentType: "application/json; charset=utf-8"
 				},
 				update: {
-					url: "api/Restaurants",
+					url: "api/tables/updaterestaurant",
 					//data:JSON.stringify({ model: model}),
 					type: "post",
-					dataType: "json"
+					dataType: "json",
+					contentType: "application/json;charset=utf-8"// "application/x-www-form-urlencoded;  charset=UTF-8" //"application/octet-stream"// "application/json; charset=utf-8"
 				},
 				parameterMap: function (options, operation) {
 					var paramMap = kendo.data.transports.odata.parameterMap(options);
 
 					// note that you may need to merge that postData with the options send from the DataSource
 					globals.consoleLog(options);
-
+					
 					if (operation !== "read" && options.models) {
-						return kendo.stringify({ id: 1 });// { models: kendo.stringify(options.models) }; //return kendo.stringify(model);
+					    //return options.models;
+					    return kendo.stringify(options.models);
+						return kendo.stringify({ "restaurant": kendo.stringify(options.models[0]) });// { models: kendo.stringify(options.models) }; //return kendo.stringify(model);
 					}
 					return options;//JSON.stringify(options)
 				}  
@@ -111,14 +114,18 @@ var datasources = (function () {
 			//			_Id: { editable: false, nullable: false }
 			//		}
 			//	}
-			//},
+		//},
+			//autoSync: true,
 			schema: {
 				model: {
 					id: "id",
 					fields: {
 						id: { editable: false, nullable: true },
 						name: { validation: { required: false } },
-						Time: { validation: { required: false } }
+						Time: { validation: { required: false } },
+						location: { validation: { required: false } },
+						cuisine: { validation: { required: false } },
+						Graded: { validation: { required: false } }
 					}
 				},
 				parse: function (response) {
@@ -178,10 +185,11 @@ var datasources = (function () {
 			pageable: true,
 			refresh: true,
 			sortable: true,			
-			editable: "inline",
+			editable: "incell",
 			filterable: {
 				mode: "row"
 			},
+			toolbar: ["create", "save"],
 			columns: [
 			//{
 			//	field: "id",

@@ -19,6 +19,9 @@ using HttpGet = System.Web.Mvc.HttpGetAttribute;
 using System.Threading;
 using Kendo.Mvc.UI;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using Repository.Entities;
+using System.Web.Script.Serialization;
 
 namespace yFabric.Controllers.API
 {
@@ -27,21 +30,37 @@ namespace yFabric.Controllers.API
 		//[OutputCache(Duration = int.MaxValue, VaryByParam = "none")]
 		public IEnumerable<dynamic> GetRestaurants(int take)
 		{
-			List<dynamic> list = StaticCache.GetRestaurants().Take(take).ToList();
+			List<Restaurant> list = new List<Restaurant>{
+			 new Restaurant(){id="12",Name="Sjon",Time=new DateTime(), cuisine="Surinaams", Graded=new List<string>{"A","A"}}
+			};
+            var dynamics = StaticCache.GetRestaurants().Take(take).ToList();
 			//throw new ApplicationException("test");
 			//var myJson = bsonDocs.ToJson();
 			//var response = this.Request.CreateResponse(HttpStatusCode.OK);
 			//response.Content = new StringContent(myJson, Encoding.UTF8, "application/json");
-			return list;
+            return dynamics;
 
 		}
 		[HttpPost]
-		public async Task<IHttpActionResult> UpdateRestaurant(dynamic models)
+		public async Task<IHttpActionResult> UpdateRestaurant()
 		{
-			var obj = await Request.Content.ReadAsFormDataAsync();
-			//var x = await Request.Content.ReadAsHttpRequestMessageAsync();
-			var y = await Request.Content.ReadAsStringAsync();
-			//todo
+			var obj = Request.GetOwinContext();
+
+			var inputStream = obj.Environment["owin.RequestBody"] as Stream;
+			byte[] result;
+
+			using (Stream SourceStream = inputStream)
+			{
+				result = new byte[SourceStream.Length];
+				await SourceStream.ReadAsync(result, 0, (int)SourceStream.Length);
+			}
+            JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+            var stringified = Encoding.Default.GetString(result);
+            //For inline editing
+            Dictionary<string, object> jsonfiedPair = json_serializer.DeserializeObject(stringified) as Dictionary<string, object>;
+            //For incell editing
+            object[] objects = json_serializer.DeserializeObject(stringified) as object[];
+
 			// Get a list of products from a database.
 			List<dynamic> list = new List<dynamic>();
 

@@ -83,11 +83,11 @@ namespace yFabric
             //    appId: "",
             //    appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+			{
+				ClientId = "567121946208-87kdb807o66rlpf27h4mrjb6lg6vl7rt.apps.googleusercontent.com",
+				ClientSecret = "UWqUTssFfeLj7ZYw4XGCGMK-"
+			});
         }
     }
 }

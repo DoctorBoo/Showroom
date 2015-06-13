@@ -17,16 +17,16 @@ namespace yFabric.Hubs
 
         public  void StartCounterCollection()
         {
-            var task = Task.Factory.StartNew(async () =>
-            {
-                var perfService = new PerfCounterService();
-                while (true)
-                {
-                    var results = perfService.GetResults();
-                    Clients.All.newCounters(results);
-                    await Task.Delay(2000);
-                };
-            }, TaskCreationOptions.LongRunning);
+			//var task = Task.Factory.StartNew(async () =>
+			//{
+			//	var perfService = new PerfCounterService();
+			//	while (true)
+			//	{
+			//		var results = perfService.GetResults();
+			//		Clients.All.newCounters(results);
+			//		await Task.Delay(2000);
+			//	};
+			//}, TaskCreationOptions.LongRunning);
         }
     }
 }

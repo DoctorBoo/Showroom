@@ -106,6 +106,7 @@
     <Compile Include="Contexts\MongoCtx.cs" />
     <Compile Include="Contexts\UserCtx.cs" />
     <Compile Include="Entities\IUser.cs" />
+    <Compile Include="Entities\Reataurant.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User_Role.cs" />
     <Compile Include="Entities\AccountMgr.cs" />

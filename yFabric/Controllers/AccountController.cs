@@ -12,6 +12,7 @@ using yFabric.Models;
 
 namespace yFabric.Controllers
 {
+	[RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {
