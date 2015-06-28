@@ -59,7 +59,10 @@ var datasources = (function () {
 		transport: {
 				//type: "odata",
 				read: {
-					url: "api/tables",
+				    url: "api/tables",
+				    //url: function(options) {
+				    //    return kendo.format("odata/Restaurants", options);
+				    //},
 					data: function () {						
 						return {
 							take: 100
@@ -121,34 +124,39 @@ var datasources = (function () {
 					id: "id",
 					fields: {
 						id: { editable: false, nullable: true },
-						name: { validation: { required: false } },
+						Name: { validation: { required: false } },
 						Time: { validation: { required: false } },
 						location: { validation: { required: false } },
 						cuisine: { validation: { required: false } },
 						Graded: { validation: { required: false } }
 					}
-				},
-				parse: function (response) {
-					var restaurants = [];
-					for (var i = 0; i < response.length; i++) {
-						var address = JSON.parse(response[i].elts[1].value);
-						var restaurant = {
-							id: response[i].elts[0].value
-														.replace(new RegExp('ObjectId', 'g'), '') //
-														.replace(new RegExp('\[()]', 'g'), '')
-														.replace(new RegExp('\["]', 'g'), ''),
-							name: JSON.parse(response[i].elts[5].value),
-							location: address.street + ' ' + address.zipcode + ' ' + address.building
-						};
-						restaurant[response[i].elts[3].name] = JSON.parse(response[i].elts[3].value);
-						restaurant[response[i].elts[4].name] = JSON.parse(response[i].elts[4].value
-							.replace(new RegExp('ISODate', 'g'), '') //2014-07-18T00:00:00Z
-							.replace(new RegExp('\[()]', 'g'), ''));
-						restaurant['Time'] = new Date();
-						restaurants.push(restaurant);
-					}
-					return restaurants;
 				}
+                //,
+				//parse: function (response) {
+				//	var restaurants = [];
+				//    try {
+				//        for (var i = 0; i < response.length; i++) {
+				//            var address = JSON.parse(response[i].elts[1].value);
+				//            var restaurant = {
+				//                id: response[i].elts[0].value
+                //                                            .replace(new RegExp('ObjectId', 'g'), '') //
+                //                                            .replace(new RegExp('\[()]', 'g'), '')
+                //                                            .replace(new RegExp('\["]', 'g'), ''),
+				//                name: JSON.parse(response[i].elts[5].value),
+				//                location: address.street + ' ' + address.zipcode + ' ' + address.building
+				//            };
+				//            restaurant[response[i].elts[3].name] = JSON.parse(response[i].elts[3].value);
+				//            restaurant[response[i].elts[4].name] = JSON.parse(response[i].elts[4].value
+                //                .replace(new RegExp('ISODate', 'g'), '') //2014-07-18T00:00:00Z
+                //                .replace(new RegExp('\[()]', 'g'), ''));
+				//            restaurant['Time'] = new Date();
+				//            restaurants.push(restaurant);
+				//        }
+				//    } catch (e) {
+
+				//    }
+				//	return restaurants;
+				//}
 			}
 	});
 	var logContentTemplate = function (content) {

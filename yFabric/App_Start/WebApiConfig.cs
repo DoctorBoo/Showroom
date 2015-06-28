@@ -5,6 +5,9 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using System.Web.Http.OData.Builder;
+using Repository.Entities;
+using System.Web.Http.OData.Extensions;
 
 namespace yFabric
 {
@@ -13,6 +16,12 @@ namespace yFabric
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.AddODataQueryFilter();
+
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Restaurant>("Restaurants");
+            config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));

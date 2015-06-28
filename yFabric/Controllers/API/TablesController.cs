@@ -38,7 +38,7 @@ namespace yFabric.Controllers.API
 			//var myJson = bsonDocs.ToJson();
 			//var response = this.Request.CreateResponse(HttpStatusCode.OK);
 			//response.Content = new StringContent(myJson, Encoding.UTF8, "application/json");
-            return dynamics;
+            return list;
 
 		}
 		[HttpPost]
