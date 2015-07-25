@@ -31,7 +31,8 @@ namespace yFabric.Controllers.API
 		public IEnumerable<dynamic> GetRestaurants(int take)
 		{
 			List<Restaurant> list = new List<Restaurant>{
-			 new Restaurant(){id="12",Name="Sjon",Time=new DateTime(), cuisine="Surinaams", Graded=new List<string>{"A","A"}}
+			 new Restaurant(){id="12",Name="Sjon",Time=new DateTime(), cuisine="Surinaams", Graded=new List<string>{"A","A"}},
+             new Restaurant(){id="34",Name="Piet",Time=new DateTime(), cuisine="Vlaams", Graded=new List<string>{"A","A"}}
 			};
             var dynamics = StaticCache.GetRestaurants().Take(take).ToList();
 			//throw new ApplicationException("test");
@@ -42,7 +43,7 @@ namespace yFabric.Controllers.API
 
 		}
 		[HttpPost]
-		public async Task<IHttpActionResult> UpdateRestaurant()
+        public async Task<IHttpActionResult> UpdateRestaurant([DataSourceRequest]DataSourceRequest request, int? id)
 		{
 			var obj = Request.GetOwinContext();
 
