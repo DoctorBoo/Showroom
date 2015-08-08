@@ -122,6 +122,52 @@ namespace ClientMail
                 
             }
         }
+        public void Send(string toRecipient, string subject, string body, object token)
+        {
+            lock (locker)
+            {
+                _subject = subject;
+                if (_tokens == null) _tokens = new ConcurrentDictionary<string, string>();
+                if (_failure == null) _failure = new ConcurrentDictionary<string, string>();
+
+                // Command line argument must the the SMTP host.                           
+                try
+                {
+                    // Specify the e-mail sender. 
+                    // Create a mailing address that includes a UTF8 character 
+                    // in the display name.
+                    MailAddress from = new MailAddress("No_reply@backoffice.com", "No_Reply Next Action", Encoding.UTF8);
+                    // Set destinations for the e-mail message.
+                    MailAddress to = new MailAddress(toRecipient);
+                    // Specify the message content.
+                    using (MailMessage message = new MailMessage(from, to))
+                    {
+                        //message.CC.Add(new MailAddress("dmodiwirijo@hotmail.com"));
+
+                        message.BodyEncoding = System.Text.Encoding.UTF8;
+                        message.Subject = subject;
+                        message.Body = body;
+                        message.SubjectEncoding = System.Text.Encoding.UTF8;
+
+                        //message.Attachments.Add(attach2);
+                        // Set the method that is called back when the send operation ends.
+
+                        // The userState can be any object that allows your callback  
+                        // method to identify this send operation. 
+                        // For this example, the userToken is a string constant. 
+                        string userState = string.Format("{0}", token.ToString());
+                        _client.SendAsync(message, userState);
+                        Monitor.Wait(locker);
+                        //
+                    }
+                }
+                finally
+                {
+
+                }
+
+            }
+        }
         public static MemoryStream GenerateStreamFromString(string s)
         {
             MemoryStream stream = new MemoryStream();
