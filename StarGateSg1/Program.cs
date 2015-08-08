@@ -11,38 +11,88 @@ namespace StarGateSg1
     using System.IO;
     using System.Web.Http;
     using AppFunc = Func<IDictionary<string, object>, Task>;
+    using System.Web.Http.SelfHost;
+    using System.Net;
     class Program
     {
-        static string _port = "8082";
-
+        const string _port = "8082";
+        public static readonly string uri = string.Format("http://127.0.0.1:{0}", _port); 
         static void Main(string[] args)
         {
-            string uri = string.Format("http://localhost:{0}", _port);
-            using (WebApp.Start<StartUp>(uri))
+            List<Exception> q = new List<Exception>();
+            //q = StartSslWebApi();
+
+            try
             {
-                Console.WriteLine(string.Format("Server started listening {0}", _port));
-                Console.ReadKey();
-                Console.WriteLine("Stopping.");
+                var options = new StartOptions(url: uri)
+                {
+                    ServerFactory = "Microsoft.Owin.Host.HttpListener",         
+                    AppStartup = "StartUp",
+                    Port= int.Parse(_port)
+                };
+                using (WebApp.Start <StartUp>(options)) //<StartUp>
+                {
+                    Console.WriteLine(string.Format("Server started listening {0}", _port));
+                    Console.ReadKey();
+                    Console.WriteLine("Stopping.");
+                }
             }
+            catch (AggregateException ex)
+            {
+                q.Add(ex);
+            }
+            catch (Exception ex)
+            {
+                q.Add(ex);
+            }
+        }
+        /// <summary>
+        /// Old Web API with .NET 4.0 support
+        /// </summary>
+        /// <returns></returns>
+        private static List<Exception> StartSslWebApi()
+        {
+            string sslAddress = "https://127.0.0.1:44322";
+            var config = new HttpSelfHostWindowsAuthenticationConfiguration(sslAddress);
+            List<Exception> q = new List<Exception>();
+
+            //Need tp refactor to use the route in Startup.cs
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+            using (HttpSelfHostServer server = new HttpSelfHostServer(config))
+            {
+                try
+                {
+                    server.OpenAsync().Wait();
+                }
+                catch (AggregateException ex)
+                {
+                    q.Add(ex);
+                }
+                Console.WriteLine("Press Enter to quit.");
+                Console.ReadLine();
+            }
+            return q;
         }
     }
 
     public class StartUp
     {
         public void Configuration (IAppBuilder app)
-        {
-            
-
+        {            
             #region dump environment
-            //app.Use(async (env, next) =>
-            //{
+            app.Use(async (env, next) =>
+            {
 
-            //    foreach (var item in env.Environment)
-            //    {
-            //        Console.WriteLine("{0}:{1}", item.Key, item.Value);
-            //    }
-            //    await next();
-            //});
+                foreach (var item in env.Environment)
+                {
+                    Console.WriteLine("{0}:{1}", item.Key, item.Value);
+                }
+                await next();
+            });
             #endregion
 
             app.Use(async (env, next) => {
@@ -52,7 +102,7 @@ namespace StarGateSg1
                 Console.WriteLine("Responding: {0}", env.Response.StatusCode);
             });
             ConfigureWebApi(app);
-            app.UseHelloWorld();
+            //app.UseHelloWorld();
 
             //app.UseWelcomePage();
             //app.Run( ctx => {
@@ -62,9 +112,18 @@ namespace StarGateSg1
 
         private void ConfigureWebApi(IAppBuilder app)
         {
+            //old: var config = new HttpConfiguration();
+
+            HttpListener listener = (HttpListener)app.Properties["System.Net.HttpListener"];
+            listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+
             var config = new HttpConfiguration();
 
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
 
             app.UseWebApi(config);
         }
@@ -95,4 +154,5 @@ namespace StarGateSg1
             }
         }
     }
+
 }
