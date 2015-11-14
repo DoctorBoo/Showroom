@@ -102,7 +102,7 @@ namespace StarGateSg1
                 Console.WriteLine("Responding: {0}", env.Response.StatusCode);
             });
             ConfigureWebApi(app);
-            app.UseHelloWorld();
+            //app.UseHelloWorld();
 
             //app.UseWelcomePage();
             //app.Run( ctx => {
@@ -118,10 +118,11 @@ namespace StarGateSg1
             //listener.AuthenticationSchemes = AuthenticationSchemes.IntegratedWindowsAuthentication;
 
             var config = new HttpConfiguration();
+            config.EnableCors();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
             
