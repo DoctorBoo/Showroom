@@ -28,13 +28,13 @@ namespace yFabric.Controllers.API
     public class TablesController : ApiController
 	{
 		//[OutputCache(Duration = int.MaxValue, VaryByParam = "none")]
-		public IEnumerable<dynamic> GetRestaurants(int take)
+		public IEnumerable<dynamic> GetRestaurants(int? take)
 		{
 			List<Restaurant> list = new List<Restaurant>{
 			 new Restaurant(){id="12",Name="Sjon",Time=new DateTime(), cuisine="Surinaams", Graded=new List<string>{"A","A"}},
              new Restaurant(){id="34",Name="Piet",Time=new DateTime(), cuisine="Vlaams", Graded=new List<string>{"A","A"}}
 			};
-            var dynamics = StaticCache.GetRestaurants().Take(take).ToList();
+            var dynamics = StaticCache.GetRestaurants().Take(take.Value).ToList();
 			//throw new ApplicationException("test");
 			//var myJson = bsonDocs.ToJson();
 			//var response = this.Request.CreateResponse(HttpStatusCode.OK);

@@ -15,8 +15,8 @@ namespace StarGateSg1
     using System.Net;
     class Program
     {
-        const string _port = "8082";
-        public static readonly string uri = string.Format("http://127.0.0.1:{0}", _port); 
+        const string _port = "44322";
+        public static readonly string uri = string.Format("https://127.0.0.1:{0}", _port); 
         static void Main(string[] args)
         {
             List<Exception> q = new List<Exception>();
@@ -102,7 +102,7 @@ namespace StarGateSg1
                 Console.WriteLine("Responding: {0}", env.Response.StatusCode);
             });
             ConfigureWebApi(app);
-            //app.UseHelloWorld();
+            app.UseHelloWorld();
 
             //app.UseWelcomePage();
             //app.Run( ctx => {
@@ -114,8 +114,8 @@ namespace StarGateSg1
         {
             //old: var config = new HttpConfiguration();
 
-            HttpListener listener = (HttpListener)app.Properties["System.Net.HttpListener"];
-            listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+            //HttpListener listener = (HttpListener)app.Properties["System.Net.HttpListener"];
+            //listener.AuthenticationSchemes = AuthenticationSchemes.IntegratedWindowsAuthentication;
 
             var config = new HttpConfiguration();
 
@@ -124,7 +124,7 @@ namespace StarGateSg1
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            
             app.UseWebApi(config);
         }
     }

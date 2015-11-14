@@ -10,9 +10,10 @@ namespace StarGateSg1
 {
     public class GreetingsController: ApiController
     {
-        public Greetings Get ()
+        public IHttpActionResult Get()
         {
-            return new Greetings { Text = "Hello World!!!!!!!" };
+            return Ok("Send");
+            //return new Greetings { Text = "Hello World!!!!!!!" };
         }
 
         [HttpPost]
