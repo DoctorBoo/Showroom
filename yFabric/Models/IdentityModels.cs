@@ -53,7 +53,9 @@ namespace yFabric.Models
 			if (User.Identity.IsAuthenticated)
 			{
 				var usersContext = new ApplicationDbContext();
-				var appUser = (from u in usersContext.Users
+                var listUsers = usersContext.Users.ToList();
+                int count = listUsers.Count();
+                var appUser = (from u in listUsers
 								where u.UserName.Equals(User.Identity.Name)
 								select new { Name = u.Nick!= null && u.Nick.Trim() != "" ? u.Nick : User.Identity.Name}).FirstOrDefault();								
 				nickName = appUser.Name;

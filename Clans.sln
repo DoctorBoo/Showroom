@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shogun", "Shogun\Shogun.csproj", "{ACD87333-4B4B-4873-A2D8-C31BBC21AD64}"
 EndProject
@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{F8647703-89F4-455F-AAD1-3B9FE8B4D361}"
 	ProjectSection(SolutionItems) = preProject
 		PublishScripts\Configurations\CRMFactory-WAWS-dev.json = PublishScripts\Configurations\CRMFactory-WAWS-dev.json
+		PublishScripts\Configurations\Etherean-WAWS-dev.json = PublishScripts\Configurations\Etherean-WAWS-dev.json
 		PublishScripts\Configurations\ModelFactory-WAWS-dev.json = PublishScripts\Configurations\ModelFactory-WAWS-dev.json
 		PublishScripts\Configurations\ProductFactory-WAWS-dev.json = PublishScripts\Configurations\ProductFactory-WAWS-dev.json
 		PublishScripts\Configurations\Shogun-WAWS-dev.json = PublishScripts\Configurations\Shogun-WAWS-dev.json
@@ -37,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMFactory.Tests", "CRMFactory.Tests\CRMFactory.Tests.csproj", "{1B833502-5D20-4924-9BED-8C8ADC4DE26C}"
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "BarcodeReader", "BarcodeReader\BarcodeReader.jsproj", "{1A177D03-A122-4EFA-98D5-391E8C07578F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etherean", "Etherean\Etherean.csproj", "{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -408,6 +411,42 @@ Global
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Release|Windows-x86.ActiveCfg = Release|Windows-x86
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Release|Windows-x86.Build.0 = Release|Windows-x86
 		{1A177D03-A122-4EFA-98D5-391E8C07578F}.Release|Windows-x86.Deploy.0 = Release|Windows-x86
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Android.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|iOS.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Windows Phone (Universal).ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Windows Phone 8.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Windows-AnyCPU.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Windows-ARM.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Windows-x64.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Debug|Windows-x86.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Android.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Any CPU.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Any CPU.Build.0 = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|iOS.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Windows Phone (Universal).ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Windows Phone 8.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Windows-AnyCPU.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Windows-ARM.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Windows-x64.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Distribution|Windows-x86.ActiveCfg = Debug|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Android.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|iOS.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Windows Phone (Universal).ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Windows Phone 8.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Windows-AnyCPU.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Windows-ARM.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Windows-x64.ActiveCfg = Release|Any CPU
+		{C24C0BD1-FAF0-491E-97EB-6F6D337DA295}.Release|Windows-x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
