@@ -8,8 +8,8 @@
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [AdventureWorks2014];
-GO
+--USE [AdventureWorks2014];
+--GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
