@@ -74,6 +74,11 @@
     </Compile>
     <Compile Include="CRM\Employee.cs" />
     <Compile Include="CRM\Identity.cs" />
+    <Compile Include="Migrations\IdentityCRM\201603222311083_InitialCreate.cs" />
+    <Compile Include="Migrations\IdentityCRM\201603222311083_InitialCreate.Designer.cs">
+      <DependentUpon>201603222311083_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\IdentityCRM\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +115,11 @@
       <Project>{fa98aefd-bad6-425f-91ea-4391cbf7e60f}</Project>
       <Name>DomainClasses</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\IdentityCRM\201603222311083_InitialCreate.resx">
+      <DependentUpon>201603222311083_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
