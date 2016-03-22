@@ -1,4 +1,6 @@
-﻿using DataAccess.Contexts;
+﻿
+using DataAccess.Contexts;
+using Mine = Repository.Entities.Mine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
