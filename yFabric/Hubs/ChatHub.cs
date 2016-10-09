@@ -8,9 +8,11 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using yFabric.Counters;
 using yFabric.Models;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace yFabric.Hubs
 {
+    [HubName("ChatHub")]
     public class ChatHub : Hub
     {
         public ChatHub()

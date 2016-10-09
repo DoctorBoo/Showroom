@@ -28,26 +28,22 @@ var communicator = (function () {
     var self = this;
     try {
         
-    	var chat = $.connection.chatHub;
-		self.perfHub = new PerfHub().instance;
+    	var chat = $.connection.chatHub || $.hubConnection().createHubProxy('ChatHub');
+    	self.perfHub = {};//new PerfHub().instance;
 		var perf = self.perfHub;
         chat.connection.stateChanged(connectionStateChanged);
 
         self.identity = null;
+        self.hubStarted = null;
 
         $.connection.hub.logging = true;
         
-        chat.client.newMessage = function (message) {
+        chat.on('newMessage',function (message) {
             model.addMessage(message);
-        };
-        chat.client.Identity = function (message) {
+        });
+        chat.on('Identity', function (message) {
             communicator.identity = message;
-        };
-		
-        if (perf && perf.client)
-        	perf.client.newCounters = function (counters) {
-        		model.addCounters(counters);
-        	};
+        });        
 
         var ChartEntry = function (name) {
             var self = this;
@@ -112,10 +108,12 @@ var communicator = (function () {
 
                 var message = $.isFunction(self.message) ? self.message() : self.message;
 
-                chat.server.getIdentity().done(function () {
-                	sendMessage(message);
-                });
-
+                chat.connection.start()
+                    .done(function () {
+                        chat.invoke('getIdentity').done(function () {
+                            sendMessage(message);
+                        });
+                    });               
             },
             addMessage: function (message) {               
                 var self = this;
@@ -136,17 +134,21 @@ var communicator = (function () {
         	var deferred = $.Deferred();
 
         	var doSend = function (message) {
-        		var model = this;
-        		chat.server.sendMessage(message).always(function () {
-        			deferred.resolve();
-        			model.message('');        			
-        		});
+        	    var model = this;
+        	    chat.connection.start()
+                   .done(function () {
+                       chat.invoke('sendMessage',message).always(function () {
+                           deferred.resolve();
+                           model.message('');
+                       });
+                });
         	};
 
         	var id = communicator.identity || 'This noob';
         	message = id + ' says: ' + message;
 
         	if (communicator.connectionState !== 1) {
+        	    $.connection.hub = $.hubConnection().createHubProxy('ChatHub').connection;
         		$.connection.hub.start().done(function () {
         			if (message) {
         				doSend.apply(model, [message]);
@@ -163,13 +165,37 @@ var communicator = (function () {
         console.log(e);
     }
     
+    /*
+*  SIGNALR
+*/
+    try {
+        var $insightHub = {};
+        //var $insightHub = $.connection.insightHub;
+        var connection = $.hubConnection();
+        $insightHub = connection.createHubProxy('PerfHub');
 
+        $insightHub.connection.stateChanged(connectionStateChanged);
+
+        $insightHub.on('echo', function (message) {
+            //globals.consoleLog(communicator.identity + ' echo :', message);
+        });
+        $insightHub.on('echoCallback', function (user, message) {
+            globals.consoleLog(user + ' said :', message);
+        });
+        $insightHub.on('newCounters',function (counters) {
+            model.addCounters(counters);
+        });
+           
+    } catch (e) {
+        globals.consoleLog(e);
+    }
     $(function () {
 
         try {
-        	$.connection.hub.start();
+            $.connection.hub.start();
+            console.log('signalr started?');
         } catch (e) {
-            console.log(e);
+            console.log('Fallback to proxy signalr.');
         }
     });
     function connectionStateChanged(state) {        
@@ -202,19 +228,114 @@ var communicator = (function () {
             }
         }
     }
+    var startHub = function (alias) {
+        alias = alias || 'PerfHub';
+        var deferred = $.Deferred();
+        try {
+            self.hubStarted = true;
+            var connection = $.hubConnection();
+            var hub = connection.createHubProxy(alias);
+
+            hub.connection.start()//{ transport: ['webSockets', 'longPolling'] }
+                .done(function () {
+                    globals.consoleLog('Hubstarted.');
+                    globals.consoleLog("Connected, transport = " + hub.connection.transport.name);
+                    deferred.resolve();
+                })
+                .fail(function () {
+                    globals.consoleLog('Start hub failed.');
+                    deferred.reject();
+                });
+        } catch (e) {
+            globals.consoleLog(e);
+        }
+        return deferred;
+    };
     var startPerf = function () {
-    	perf = new PerfHub().instance;
-    	if (perf)
-    		perf.client.newCounters = function (counters) {
-    			model.addCounters(counters);
-    		};
+        var perf = connection.createHubProxy('PerfHub');
+        perf.connection.start()
+            .done(function () {
+                perf.on('newCounters', function (counters) {
+                    model.addCounters(counters);
+                });
+                perf.invoke('startCounterCollection', function () {
+                    globals.consoleLog('startCounterCollection');
+                });
+            });
+
     };
     return {
     	chatHub: chat,
+    	perfHub: perf,
         instanceModel: model,
         viewModel: Model,
         connectionState: connectionState,
         identity: identity,
-    	sendMessage: sendMessage
+        sendMessage: sendMessage,
+        startPerfHub: function () {
+            return startHub('PerfHub');
+        },
+        startHub: startHub,
+        startCounterCollection: function () {
+            try {
+                self.hubStarted = true;
+                $insightHub.connection.start()//{ transport: ['webSockets', 'longPolling'] }
+                    .done(function () {
+                        globals.consoleLog('Hubstarted.');
+                        globals.consoleLog("Connected, transport = " + $insightHub.connection.transport.name);
+                        startPerf();
+                    })
+                    .fail(function () {
+                        globals.consoleLog('Start hub failed.');
+                    });
+            } catch (e) {
+                globals.consoleLog(e);
+            }
+        }
     }
 }());
+
+var globals = (function ($) {
+    var self = this;
+    var verboseMode = true;
+
+    var timeEditor = function (container, options) {
+        $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
+				.appendTo(container)
+				.kendoTimePicker({});
+    }
+
+    function dateTimeEditor(container, options) {
+        $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
+				.appendTo(container)
+				.kendoDateTimePicker({});
+    }
+    $(function () {
+
+    })
+    var writeTrace = function () {
+        var max = arguments.length;
+        var arg = arguments[0];
+        if (verboseMode && max && console[arg] && typeof console[arg] === "function" && arg === 'trace') {
+            console[arg]();
+            return true;
+        }
+        return false;
+    };
+
+
+    var writeLog = function () {
+        if (verboseMode && window.console) {
+            for (var i = 0; i < arguments.length; i++) {
+                var that = arguments[i];
+                if (!writeTrace(that)) {
+                    console.log(that);
+                }
+            }
+        }
+    }
+    return {
+        consoleLog: writeLog,
+        timeEditor: timeEditor
+    }
+}(jQuery));

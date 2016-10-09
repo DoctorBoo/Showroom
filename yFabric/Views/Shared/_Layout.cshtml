@@ -10,6 +10,7 @@
 	@Styles.Render("~/Content/kendo/css")
 	
 	@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/signalr")
 	@Scripts.Render("~/bundles/kendo")
 	@* Include the JavaScript for the current culture *@
 	@{
@@ -34,6 +35,7 @@
         appInsights.trackPageView();
 	</script>
 	@RenderSection("HeadContent", false)
+    <script src="~/Scripts/smoothie.js"></script>
 </head>
 <body>
 

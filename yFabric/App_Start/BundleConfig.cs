@@ -18,6 +18,9 @@ namespace yFabric
 				 //"~/Scripts/jquery.min.js",
                 "~/Scripts/jquery.signalR-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
+                "~/Scripts/jquery.signalR-{version}.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.unobtrusive*",
                 "~/Scripts/jquery.validate*"));
