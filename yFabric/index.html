@@ -41,6 +41,7 @@
 		        try {
 		            if (!communicator.hubStarted)
 		                communicator.startHub();
+		            communicator.startCounterCollection();
 		        } catch (e) { console.log('error',e); }
 
 				if (PerfHub) {

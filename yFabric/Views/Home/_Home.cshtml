@@ -1,22 +1,14 @@
 ﻿<!-- ko with: home -->
 
 <div class="row">
-    <div class="col-md-4">
+    @*<div class="col-md-4">
         <h2>Users logged in</h2>
         <p data-bind="text: myHometown"></p>
        
-    </div>
+    </div>*@
 
-    <div class="col-md-8">
-        <h2>Chats</h2>
-
-		<input type="text" id="message" placeholder="Message" data-bind="value:message"/>
-		<input type="button" class="btn btn-primary" id="sendmessage" value="Send" data-bind="click:sendMessage"/>
-		<input type="hidden" id="displayname" />
-
-		<div data-bind="foreach:messages">
-			<div data-bind="text:$data"></div>
-		</div>
+    <div class="col-md-12">        
+      <iframe src="~/index.html" frameborder="0"style="width:100%;height:700px;position:relative;top:-57px"></iframe>
     </div>
 </div>
 

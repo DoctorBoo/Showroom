@@ -8,25 +8,25 @@
     self.chatmessages = ko.observableArray();
     self.counters = ko.observableArray();
 	
-    var chat = communicator.chatHub;
-    chat.client.newMessage = function (message) {
-    	self.addMessage(message);
-    };
-    chat.client.Identity = function (message) {
-    	communicator.identity = message;
-    };
-    self.sendMessage = function () {
-    	var self = this;
-    	var deferred = $.Deferred();
-    	var message = $.isFunction(self.message) ? self.message() : self.message;
-		
-    	chat.server.getIdentity().done(function () {
-    		communicator.sendMessage.apply(self, [message]).always(function (resolvedwith) {
-    			self.message('');
-    		});
-    	});
+    var chat = communicator.chatHub || $.hubConnection().createHubProxy('ChatHub');
+    chat.on('newMessage', function (message) {
+        model.addMessage(message);
+    });
+    chat.on('Identity', function (message) {
+        communicator.identity = message;
+    });
 
-    	return deferred;
+    self.sendMessage = function () {
+        var self = this;
+
+        var message = $.isFunction(self.message) ? self.message() : self.message;
+
+        chat.connection.start()
+            .done(function () {
+                chat.invoke('getIdentity').done(function () {
+                    sendMessage(message);
+                });
+            });
     };
     self.addMessage = function (message) {
     	var self = this;

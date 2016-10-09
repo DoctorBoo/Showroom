@@ -30,5 +30,18 @@ namespace yFabric
         {
             TicketNr++;
         }
+        protected void Application_BeginRequest(Object sender, EventArgs e)
+        {
+            
+        }
+        protected void Application_EndRequest(Object sender, EventArgs e)
+        {
+            var path = Request.Path;
+            if (!HttpContext.Current.Request.IsAuthenticated && !String.IsNullOrWhiteSpace(path) && path.ToLower().EndsWith(".html"))
+            {
+                HttpContext.Current.Response.ClearContent();
+                Response.RedirectToRoutePermanent("Default");
+            }
+        }
     }
 }
