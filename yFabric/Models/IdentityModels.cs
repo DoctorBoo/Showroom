@@ -7,6 +7,7 @@ using Repository.Contexts;
 using HubContext = Microsoft.AspNet.SignalR.Hubs.HubCallerContext;
 using System.Security.Principal;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace yFabric.Models
 {
@@ -29,6 +30,7 @@ namespace yFabric.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<MyUser> MyUsers { get; set; }
         public ApplicationDbContext()
 			: base("DefaultConnection", throwIfV1Schema: false)
         {            
@@ -40,7 +42,13 @@ namespace yFabric.Models
         }
     }
 
-	public static class Extensions
+    public class MyUser
+    {
+        [Key]
+        public string email { get; set; }
+    }
+
+    public static class Extensions
 	{
 		/// <summary>
 		/// Fallback is User.Identity.Name
