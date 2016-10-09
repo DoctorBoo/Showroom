@@ -6,6 +6,7 @@ using yFabric.Areas.HelpPage.Models;
 
 namespace yFabric.Areas.HelpPage.Controllers
 {
+    [System.Web.Mvc.Authorize]
     /// <summary>
     /// The controller that will handle requests for the help page.
     /// </summary>

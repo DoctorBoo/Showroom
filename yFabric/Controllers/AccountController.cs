@@ -79,7 +79,7 @@ namespace yFabric.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        private async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -342,11 +342,13 @@ namespace yFabric.Controllers
             }
             using (var ctx = new ApplicationDbContext())
             {
+                var isValidUser = ctx.MyUsers.Any(a=> loginInfo.Email == a.email);
                 // Sign in the user with this external login provider if the user already has a login
                 var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
                 var manager = UserManager;
-                var found = manager.FindByEmail(loginInfo.Email);
-                result = found == null ? result : SignInStatus.Failure;
+                var isApplicationUser = manager.FindByEmail(loginInfo.Email) != null;
+
+                result = isApplicationUser && isValidUser ? result : SignInStatus.Failure;
                 switch (result)
                 {
                     case SignInStatus.Success:
@@ -357,12 +359,21 @@ namespace yFabric.Controllers
                         return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                     case SignInStatus.Failure:
                     default:
-                        return RedirectToLocal(returnUrl);
-                        // If the user does not have an account, then prompt the user to create an account
-                        //ViewBag.ReturnUrl = returnUrl;
-                        //ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                        //return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                        //return RedirectToLocal(returnUrl);
+                        //If the user does not have an account, then prompt the user to create an account
+                        if(isValidUser)
+                        {
+                            ViewBag.ReturnUrl = returnUrl;
+                            ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                            return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Invalid login attempt.");
+                            return View("UnAuthorized");
+                        }
                 }
+                       
             }
         }
 

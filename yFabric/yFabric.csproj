@@ -342,6 +342,10 @@
     <Compile Include="Migrations\ApplicationDbContextMigrations\201506101916225_InitialCreate.Designer.cs">
       <DependentUpon>201506101916225_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ApplicationDbContextMigrations\201610091734512_InitialCreate1.cs" />
+    <Compile Include="Migrations\ApplicationDbContextMigrations\201610091734512_InitialCreate1.Designer.cs">
+      <DependentUpon>201610091734512_InitialCreate1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ApplicationDbContextMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="DataContexts\StaticCache.cs" />
@@ -2349,6 +2353,7 @@
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
     <Content Include="Views\Shared\_Layoutlet.cshtml" />
     <Content Include="Views\Tables\Index.cshtml" />
+    <Content Include="Views\Account\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.Entities.csproj">
@@ -2366,6 +2371,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\ApplicationDbContextMigrations\201506101916225_InitialCreate.resx">
       <DependentUpon>201506101916225_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ApplicationDbContextMigrations\201610091734512_InitialCreate1.resx">
+      <DependentUpon>201610091734512_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
